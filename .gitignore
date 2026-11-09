@@ -1,0 +1,46 @@
+# ---- 秘密：鍵・トークン ----
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*credentials*.json
+*service-account*.json
+*secret*
+*token*
+.npmrc
+.netrc
+# ---- 制作過程：公開側には置かない（michikusa-lab へ）----
+CLAUDE.md
+CLAUDE.local.md
+AGENTS.md
+.claude/
+.cursor/
+.codex/
+skills/
+prompts/
+agent/
+walker/
+docs/internal/
+notes/
+*.prompt.md
+*.skill.md
+# ---- Googleの画像は保存しない ----
+*.streetview.jpg
+cache/
+tmp/
+captures/
+# ---- ビルド・依存 ----
+node_modules/
+dist/
+.astro/
+.vercel/
+.wrangler/
+# ---- OS・エディタ ----
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log
