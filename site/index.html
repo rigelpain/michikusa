@@ -144,10 +144,10 @@ input[type=range]::-moz-range-thumb{width:9px;height:17px;background:var(--ink);
       </div>
       <input type="range" id="scrub" min="0" step="1" aria-label="散歩の中の時刻">
       <dl class="read">
-        <div><dt>時計</dt><dd class="num"><span id="rClock">0:00</span> <small>/ 6:00</small></dd></div>
+        <div><dt>時計</dt><dd class="num"><span id="rClock">0:00</span> <small>/ <span id="rPlan"></span> の予定</small></dd></div>
         <div><dt>歩いた道</dt><dd class="num"><span id="rDist">0.0</span> <small>/ 24 km</small></dd></div>
         <div><dt>集めたもの</dt><dd class="num" id="rCol">0</dd></div>
-        <div><dt>立ち止まった</dt><dd class="num" id="rStop">0</dd></div>
+        <div><dt>出発点まで</dt><dd class="num"><span id="rHome">0.0</span> <small>km</small></dd></div>
       </dl>
       <div class="btns">
         <button class="btn solid" id="play">たどる</button>
@@ -174,15 +174,15 @@ input[type=range]::-moz-range-thumb{width:9px;height:17px;background:var(--ink);
 </section>
 
 <section class="view" id="walks" hidden>
-  <div class="mast"><h1>記録</h1><span class="state"><span class="num">4</span> 回 · <span class="num">52.3</span> km<span class="tag">見本データ</span></span></div>
+  <div class="mast"><h1>記録</h1><span class="state"><span class="num">4</span> 回 · <span class="num">40.4</span> km<span class="tag">見本データ</span></span></div>
   <div class="wide scroll">
     <table>
-      <thead><tr><th>日付</th><th>出発点</th><th>歩いた者</th><th>テーマ</th><th class="r">道</th><th class="r">時計</th><th class="r">集めた</th></tr></thead>
+      <thead><tr><th>日付</th><th>出発点</th><th>歩いた者</th><th>テーマ</th><th class="r">道</th><th class="r">時計</th><th class="r">帰着</th><th class="r">集めた</th></tr></thead>
       <tbody class="num">
-        <tr data-go><td>2026-11-10</td><td>函館駅</td><td>ヨモギ</td><td>黄色を集める</td><td class="r">歩行中</td><td class="r">—</td><td class="r">5</td></tr>
-        <tr><td>2026-11-08</td><td>木古内駅</td><td>ヨモギ</td><td>「！」を集める</td><td class="r">18.4 km</td><td class="r">6:00</td><td class="r">11</td></tr>
-        <tr><td>2026-11-07</td><td>森町公民館</td><td>スギナ</td><td>錆びた青</td><td class="r">12.9 km</td><td class="r">4:12</td><td class="r">7</td></tr>
-        <tr><td>2026-11-05</td><td>江差町の郵便局</td><td>ヨモギ</td><td>坂の途中の手すり</td><td class="r">21.0 km</td><td class="r">6:00</td><td class="r">14</td></tr>
+        <tr data-go><td>2026-11-10</td><td>函館駅</td><td>ヨモギ</td><td>黄色を集める</td><td class="r">歩行中</td><td class="r">—</td><td class="r">—</td><td class="r">5</td></tr>
+        <tr><td>2026-11-08</td><td>木古内駅</td><td>ヨモギ</td><td>「！」を集める</td><td class="r">9.8 km</td><td class="r">3:05</td><td class="r">帰った</td><td class="r">11</td></tr>
+        <tr><td>2026-11-07</td><td>森町公民館</td><td>スギナ</td><td>錆びた青</td><td class="r">2.1 km</td><td class="r">0:41</td><td class="r">帰った</td><td class="r">7</td></tr>
+        <tr><td>2026-11-05</td><td>江差町の郵便局</td><td>ヨモギ</td><td>坂の途中の手すり</td><td class="r">21.0 km</td><td class="r">6:00</td><td class="r">帰りつけず</td><td class="r">14</td></tr>
       </tbody>
     </table>
   </div>
@@ -191,10 +191,11 @@ input[type=range]::-moz-range-thumb{width:9px;height:17px;background:var(--ink);
 <section class="view" id="about" hidden>
   <div class="mast"><h1>これは何</h1></div>
   <div class="wide about">
-    <p>手元の計算機で動く言語モデルが、ストリートビューの中を計画なしで散歩します。決まっているのは出発点だけ。最初の景色を見て自分でテーマを決め、分かれ道で立ち止まり、向きを選び、理由を一言残します。</p>
+    <p>手元の計算機で動く言語モデルが、ストリートビューの中を計画なしで散歩します。出発点も、歩く時間も、帰りどきも、自分で決めます。最初の景色を見て自分でテーマを決め、分かれ道で立ち止まり、向きを選び、理由を一言残します。</p>
     <h2>歩き方</h2>
     <ul>
-      <li>時速4km。1回は長くて6時間、24kmまで。</li>
+      <li>どこから出るか、どのくらい歩くかも、自分で決めます。短くて30分、長くて6時間。</li>
+      <li>時速4km。出発点に帰ってきたら、その日の散歩は終わりです。</li>
       <li>見回す、調べる、休む。立ち止まることにも時間を使います。</li>
       <li>行き止まりは記録して、引き返します。</li>
     </ul>
@@ -213,7 +214,8 @@ input[type=range]::-moz-range-thumb{width:9px;height:17px;background:var(--ink);
 <script>
 // ---- 見本の散歩（作りもの）。形は walks/ のJSONを想定：行為を順に並べ、時計は行為から数える ----
 const START = { name: '函館駅', lat: 41.7737, lng: 140.7264 };
-const COST = { decide: 1, look: 3, research: 5, rest: 10, deadend: 1 }; // 分
+const PLAN = 210; // 出る前に歩く者が決めた時間（分）。30分〜6時間の間
+const COST = { turn: 1, decide: 1, look: 3, research: 5, rest: 10, deadend: 1 }; // 分
 const STEPS = [
   { a: 'look', text: '駅前。足もとの点字ブロックがまっすぐ海のほうへ延びている。今日は黄色を集める。', find: '点字ブロックの黄色い線' },
   { a: 'walk', to: [180, -60] },
@@ -240,10 +242,10 @@ const STEPS = [
   { a: 'look', text: 'イチョウの並木。歩道が一面、落ち葉で黄色い。置かれた黄色ではなく、降ってきた黄色。', find: 'イチョウの落ち葉' },
   { a: 'rest', text: '行き止まりのあと、道の選び方が変わった。先が見えない道より、戻らずに済みそうな道を選んでいる。少し臆病になっている。' },
   { a: 'walk', to: [3000, -150] }, { a: 'walk', to: [2800, 100] },
-  { a: 'decide', text: '駅のほうへは戻らない。北へ。', why: 'まだ3時間以上ある。' },
+  { a: 'turn', text: '帰ることにする。来た道は使わず、北側から回る。', why: '予定まであと50分ほど。駅はここから西へ、まっすぐで3km近い。' },
   { a: 'walk', to: [2500, 250] },
 ];
-const LABEL = { walk: '歩く', decide: '向きを決める', look: '見回す', research: '調べる', rest: '休む', deadend: '行き止まり' };
+const LABEL = { turn: '帰りを決める', walk: '歩く', decide: '向きを決める', look: '見回す', research: '調べる', rest: '休む', deadend: '行き止まり' };
 
 // ---- 時計を数える ----
 let clock = 0, dist = 0, pos = [0, 0];
@@ -262,6 +264,7 @@ for (const s of STEPS) {
 const NOW = Math.ceil(clock);
 const fmtT = m => Math.floor(m / 60) + ':' + String(Math.floor(m % 60)).padStart(2, '0');
 const fmtPos = p => (START.lat + p[1] / 111000).toFixed(5) + ', ' + (START.lng + p[0] / 82800).toFixed(5);
+const TURN = stops.find(s => s.a === 'turn')?.t ?? Infinity;
 const kind = s => s.a === 'deadend' ? 'r' : s.detour ? 'b' : s.find ? 'y' : 'o';
 
 function at(t) { // 時刻 t の位置・距離・していること
@@ -357,9 +360,9 @@ function update() {
   stops.forEach((s, i) => marks[i].setAttribute('visibility', T >= s.t ? 'visible' : 'hidden'));
   const seen = stops.filter(s => T >= s.t);
   $('rClock').textContent = fmtT(T); $('rDist').textContent = (a.d / 1000).toFixed(1);
-  $('rCol').textContent = seen.filter(s => s.find).length; $('rStop').textContent = seen.length;
+  $('rCol').textContent = seen.filter(s => s.find).length; $('rHome').textContent = (Math.hypot(a.p[0], a.p[1]) / 1000).toFixed(1); $('rPlan').textContent = fmtT(PLAN);
   $('doing').textContent = a.doing;
-  $('liveText').textContent = live ? '歩いています' : 'たどっています';
+  $('liveText').textContent = (live ? '' : 'たどっています · ') + (T >= TURN ? '帰り道' : '往き道');
   $('nFinds').textContent = seen.filter(s => s.find).length; $('nDiary').textContent = seen.filter(s => s.a === 'rest').length; $('nSpots').textContent = seen.filter(s => s.spot).length;
   scrub.style.setProperty('--p', (T / NOW * 100) + '%');
   let shown = 0;
