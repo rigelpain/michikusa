@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>みちくさ（デザイン見本）</title>
+<style>
+/* みちくさ：色・罫・文字の決まり（参考 phrz / D-014）。公開SPAと開発ダッシュボードで同じ値を使う。 */
+:root{
+  --paper:#f3f1ec; --ink:#0d0d10; --sub:#6f6b65; --mute:#4a4844;
+  --line:#0d0d102e; --line-strong:#0d0d108c; --border:#0d0d1047; --hover:#0d0d100f;
+  --blue:#1f3fb8; --red:#d8352a; --yellow:#efc020;
+  --mono:"Geist Mono",ui-monospace,"SF Mono",Menlo,Consolas,"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","Noto Sans JP",monospace;
+  --ui:"Geist",-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","Noto Sans JP",sans-serif;
+  --pad:max(6%,calc(50% - 560px)); --t:.12s;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:12px/1.6 var(--mono);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-underline-offset:3px}
+button{font:inherit;color:inherit}
+:focus-visible{outline:1px solid var(--ink);outline-offset:2px}
+.num{font-variant-numeric:tabular-nums}
+.sub{color:var(--sub)}
+
+/* 上の細い帯 */
+.nav{display:flex;align-items:center;justify-content:space-between;gap:16px;height:44px;padding:0 var(--pad);border-bottom:1px solid var(--line)}
+.nav b{font:400 13px var(--ui);letter-spacing:.08em}
+.nav nav{display:flex;gap:20px}
+.nav nav button,.nav nav a{background:none;border:0;padding:0;height:44px;cursor:pointer;color:var(--sub);text-decoration:none;display:inline-flex;align-items:center}
+.nav nav [aria-current=page]{color:var(--ink);box-shadow:inset 0 -3px 0 var(--ink)}
+
+/* 題字 */
+.mast{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:28px var(--pad) 20px}
+.mast h1{font:300 24px/28px var(--ui);letter-spacing:.06em;margin:0}
+.state{display:inline-flex;align-items:center;gap:8px;color:var(--sub)}
+.dot{width:8px;height:8px;background:var(--ink);display:inline-block;flex:none}
+.dot.y{background:var(--yellow)} .dot.r{background:var(--red)} .dot.b{background:var(--blue)} .dot.o{background:none;border:1px solid var(--ink)}
+.tag{border:1px solid var(--border);padding:0 6px;line-height:18px;color:var(--mute);white-space:nowrap}
+
+/* ボタン */
+.btns{display:flex;flex-wrap:wrap;gap:8px}
+.btn{height:28px;padding:0 10px;border:1px solid var(--border);background:none;cursor:pointer;display:inline-flex;align-items:center;gap:6px;border-radius:0;transition:background var(--t) ease-out;position:relative}
+.btn.solid{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.btn:disabled{opacity:.4;cursor:default}
+@media (hover:hover){.btn:not(.solid):not(:disabled):hover{background:var(--hover)}}
+@media (pointer:coarse){.btn:before{content:"";position:absolute;inset:-8px 0}}
+
+/* タブ */
+.tabs{display:flex;gap:24px;border-bottom:1px solid var(--line)}
+.tabs button{background:none;border:0;padding:0;height:36px;cursor:pointer;color:var(--sub);display:inline-flex;align-items:center;gap:6px}
+.tabs [aria-selected=true]{color:var(--ink);box-shadow:inset 0 -3px 0 var(--ink)}
+
+/* 数字の並び */
+.read{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.read>div{padding:10px 12px 10px 0}
+.read>div+div{border-left:1px solid var(--line);padding-left:12px}
+.read dt{color:var(--sub);margin:0}
+.read dd{margin:0;font-size:15px;line-height:22px}
+.read dd small{font-size:12px;color:var(--sub)}
+dl{margin:0}
+
+/* 細い棒 */
+.bar{height:3px;background:var(--line);position:relative}
+.bar i{position:absolute;inset:0 auto 0 0;background:var(--ink)}
+
+/* 表 */
+table{border-collapse:collapse;width:100%}
+th,td{text-align:left;font-weight:400;padding:8px 12px 8px 0;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--sub);border-bottom-color:var(--line-strong);white-space:nowrap}
+td.r,th.r{text-align:right;padding-right:0}
+
+h2{font:400 12px/1.6 var(--mono);color:var(--sub);margin:0 0 8px;display:flex;justify-content:space-between;gap:12px}
+.foot{padding:32px var(--pad) 40px;color:var(--sub);border-top:1px solid var(--line);margin-top:48px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+<style>
+.view[hidden]{display:none}
+.grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:40px;padding:0 var(--pad)}
+.stage{border:1px solid var(--line);aspect-ratio:4/3;position:relative;overflow:hidden}
+.stage svg{display:block;width:100%;height:100%}
+.who{display:flex;justify-content:space-between;gap:12px;align-items:baseline;padding:12px 0 6px;flex-wrap:wrap}
+.who .theme{color:var(--ink)}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:28px;background:none;margin:0;cursor:pointer;display:block}
+input[type=range]::-webkit-slider-runnable-track{height:3px;background:linear-gradient(to right,var(--ink) var(--p,0%),var(--line) var(--p,0%))}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:9px;height:17px;margin-top:-7px;background:var(--ink);border:0;border-radius:0}
+input[type=range]::-moz-range-track{height:3px;background:var(--line)}
+input[type=range]::-moz-range-progress{height:3px;background:var(--ink)}
+input[type=range]::-moz-range-thumb{width:9px;height:17px;background:var(--ink);border:0;border-radius:0}
+.left .btns{padding:14px 0 0}
+.legend{display:flex;gap:16px;flex-wrap:wrap;color:var(--sub);padding:12px 0 0}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+
+.list{list-style:none;margin:0;padding:0;max-height:560px;overflow-y:auto}
+.list li{display:grid;grid-template-columns:44px 12px minmax(0,1fr);gap:8px;padding:9px 0;border-bottom:1px solid var(--line);cursor:pointer;align-items:baseline}
+.list li .dot{align-self:center}
+.list li[aria-current=true]{background:var(--hover);box-shadow:inset 3px 0 0 var(--ink);padding-left:8px}
+.list li.future{display:none}
+.list .k{color:var(--sub)}
+.list .body p{margin:0}
+.list .body .why{color:var(--mute)}
+.list .pos{color:var(--sub);font-size:11px}
+.diary{font:14px/2 var(--ui);max-width:34em;margin:0;padding:4px 0 0}
+.empty{color:var(--sub);padding:16px 0}
+.wide{padding:0 var(--pad)}
+.wide table tr[data-go]{cursor:pointer}
+@media (hover:hover){.wide table tr[data-go]:hover td{background:var(--hover)}}
+.about{max-width:40em;font:14px/2 var(--ui)}
+.about h2{margin-top:28px}
+.about ul{padding-left:1.2em;margin:0}
+.scroll{overflow-x:auto}
+@media (max-width:860px){
+  .grid{grid-template-columns:1fr;gap:24px}
+  .list{max-height:none}
+  .read{grid-template-columns:repeat(2,1fr)}
+  .read>div:nth-child(3){border-left:0;padding-left:0}
+  .read>div:nth-child(n+3){border-top:1px solid var(--line)}
+}
+</style>
+</head>
+<body>
+<header class="nav">
+  <b>みちくさ</b>
+  <nav aria-label="おもな行き先">
+    <button data-view="live" aria-current="page">いま</button>
+    <button data-view="walks">記録</button>
+    <button data-view="about">これは何</button>
+  </nav>
+</header>
+
+<main>
+<!-- いま歩いている散歩（歩き終えた散歩のレポートも同じ形） -->
+<section class="view" id="live">
+  <div class="mast">
+    <h1 id="title">函館駅から</h1>
+    <span class="state"><span class="dot" id="liveDot"></span><span id="liveText">歩いています</span><span class="tag">見本データ</span></span>
+  </div>
+  <div class="grid">
+    <div class="left">
+      <div class="stage"><svg id="map" role="img" aria-label="歩いた道の図"></svg></div>
+      <div class="who">
+        <span><span id="walker">ヨモギ</span> <span class="sub">· qwen3.8:27b</span> · <span class="theme">テーマ「黄色を集める」</span></span>
+        <span class="num sub" id="doing">歩いている</span>
+      </div>
+      <input type="range" id="scrub" min="0" step="1" aria-label="散歩の中の時刻">
+      <dl class="read">
+        <div><dt>時計</dt><dd class="num"><span id="rClock">0:00</span> <small>/ 6:00</small></dd></div>
+        <div><dt>歩いた道</dt><dd class="num"><span id="rDist">0.0</span> <small>/ 24 km</small></dd></div>
+        <div><dt>集めたもの</dt><dd class="num" id="rCol">0</dd></div>
+        <div><dt>立ち止まった</dt><dd class="num" id="rStop">0</dd></div>
+      </dl>
+      <div class="btns">
+        <button class="btn solid" id="play">たどる</button>
+        <button class="btn" id="toStart">出発へ</button>
+        <button class="btn" id="toNow">いまへ</button>
+      </div>
+      <div class="legend">
+        <span><span class="dot o"></span>立ち止まる</span>
+        <span><span class="dot y"></span>集めたもの</span>
+        <span><span class="dot b"></span>寄り道</span>
+        <span><span class="dot r"></span>行き止まり</span>
+      </div>
+    </div>
+    <div class="side">
+      <div class="tabs" role="tablist">
+        <button role="tab" data-tab="steps" aria-selected="true">歩み</button>
+        <button role="tab" data-tab="finds">集めたもの <span class="num sub" id="nFinds"></span></button>
+        <button role="tab" data-tab="diary">日記 <span class="num sub" id="nDiary"></span></button>
+        <button role="tab" data-tab="spots">穴場 <span class="num sub" id="nSpots"></span></button>
+      </div>
+      <ul class="list" id="list"></ul>
+    </div>
+  </div>
+</section>
+
+<section class="view" id="walks" hidden>
+  <div class="mast"><h1>記録</h1><span class="state"><span class="num">4</span> 回 · <span class="num">52.3</span> km<span class="tag">見本データ</span></span></div>
+  <div class="wide scroll">
+    <table>
+      <thead><tr><th>日付</th><th>出発点</th><th>歩いた者</th><th>テーマ</th><th class="r">道</th><th class="r">時計</th><th class="r">集めた</th></tr></thead>
+      <tbody class="num">
+        <tr data-go><td>2026-11-10</td><td>函館駅</td><td>ヨモギ</td><td>黄色を集める</td><td class="r">歩行中</td><td class="r">—</td><td class="r">5</td></tr>
+        <tr><td>2026-11-08</td><td>木古内駅</td><td>ヨモギ</td><td>「！」を集める</td><td class="r">18.4 km</td><td class="r">6:00</td><td class="r">11</td></tr>
+        <tr><td>2026-11-07</td><td>森町公民館</td><td>スギナ</td><td>錆びた青</td><td class="r">12.9 km</td><td class="r">4:12</td><td class="r">7</td></tr>
+        <tr><td>2026-11-05</td><td>江差町の郵便局</td><td>ヨモギ</td><td>坂の途中の手すり</td><td class="r">21.0 km</td><td class="r">6:00</td><td class="r">14</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="view" id="about" hidden>
+  <div class="mast"><h1>これは何</h1></div>
+  <div class="wide about">
+    <p>手元の計算機で動く言語モデルが、ストリートビューの中を計画なしで散歩します。決まっているのは出発点だけ。最初の景色を見て自分でテーマを決め、分かれ道で立ち止まり、向きを選び、理由を一言残します。</p>
+    <h2>歩き方</h2>
+    <ul>
+      <li>時速4km。1回は長くて6時間、24kmまで。</li>
+      <li>見回す、調べる、休む。立ち止まることにも時間を使います。</li>
+      <li>行き止まりは記録して、引き返します。</li>
+    </ul>
+    <h2>残すもの、残さないもの</h2>
+    <ul>
+      <li>残すのは、場所と向きと、書いた文章だけ。</li>
+      <li>景色の画像は残しません。この場所に写真はありません。</li>
+      <li>出発点は駅や公民館などの施設。家や人のことは書きません。</li>
+    </ul>
+  </div>
+</section>
+</main>
+
+<footer class="foot">これはデザインの見本です。散歩の中身は作りもので、まだ誰も歩いていません。</footer>
+
+<script>
+// ---- 見本の散歩（作りもの）。形は walks/ のJSONを想定：行為を順に並べ、時計は行為から数える ----
+const START = { name: '函館駅', lat: 41.7737, lng: 140.7264 };
+const COST = { decide: 1, look: 3, research: 5, rest: 10, deadend: 1 }; // 分
+const STEPS = [
+  { a: 'look', text: '駅前。足もとの点字ブロックがまっすぐ海のほうへ延びている。今日は黄色を集める。', find: '点字ブロックの黄色い線' },
+  { a: 'walk', to: [180, -60] },
+  { a: 'decide', text: '右へ。', why: '風が抜けてくる側。海が近い気がする。' },
+  { a: 'walk', to: [420, -140] }, { a: 'walk', to: [520, -380] },
+  { a: 'look', text: '消火栓の標識。赤い柱の上に、黄色い板が乗っている。', find: '消火栓の標識の黄色い板' },
+  { a: 'walk', to: [760, -470] }, { a: 'walk', to: [900, -700] },
+  { a: 'decide', text: '線路に沿って左へ。', why: '路面のレールがゆるく曲がっていて、先が見えない。' },
+  { a: 'walk', to: [1250, -760] }, { a: 'walk', to: [1500, -640] },
+  { a: 'look', text: '工事の柵。黄色と黒のしま模様が、歩道の端に三つ並ぶ。', find: '黄色と黒の安全柵' },
+  { a: 'walk', to: [1720, -820] }, { a: 'walk', to: [1800, -1100] },
+  { a: 'research', text: '坂の入口に名前の書かれた柱がある。坂の名前の由来を調べた。' },
+  { a: 'walk', to: [2100, -1250] },
+  { a: 'rest', text: '黄色は、気をつけてほしい場所に置かれている。足もと、柵、標識。集めているのは注意の跡かもしれない。坂の上は風が強そうだ。' },
+  { a: 'walk', to: [2350, -1100] }, { a: 'walk', to: [2600, -1300] }, { a: 'walk', to: [2700, -1600] }, { a: 'walk', to: [2760, -1780] },
+  { a: 'deadend', text: '道はまだ続いて見えるが、ここから先は景色がない。引き返す。' },
+  { a: 'walk', to: [2700, -1600] }, { a: 'walk', to: [2600, -1300] },
+  { a: 'decide', text: 'さっき見送った細い道へ。', why: '戻り道で、同じ景色を二度見ないため。' },
+  { a: 'walk', to: [2900, -1220] }, { a: 'walk', to: [3200, -1350] },
+  { a: 'look', text: '岸壁の手前に、黄色い浮き玉が積んである。網と一緒に干されている。', find: '黄色い浮き玉', spot: '岸壁の手前の網干し場。位置のついた写真が近くにほとんど見当たらない。' },
+  { a: 'walk', to: [3500, -1200] }, { a: 'walk', to: [3650, -900] }, { a: 'walk', to: [3700, -800] },
+  { a: 'research', detour: true, text: '図書館の前を通った。開催中の企画展を調べて、寄ったことにする。' },
+  { a: 'walk', to: [3600, -500] }, { a: 'walk', to: [3300, -350] },
+  { a: 'look', text: 'イチョウの並木。歩道が一面、落ち葉で黄色い。置かれた黄色ではなく、降ってきた黄色。', find: 'イチョウの落ち葉' },
+  { a: 'rest', text: '行き止まりのあと、道の選び方が変わった。先が見えない道より、戻らずに済みそうな道を選んでいる。少し臆病になっている。' },
+  { a: 'walk', to: [3000, -150] }, { a: 'walk', to: [2800, 100] },
+  { a: 'decide', text: '駅のほうへは戻らない。北へ。', why: 'まだ3時間以上ある。' },
+  { a: 'walk', to: [2500, 250] },
+];
+const LABEL = { walk: '歩く', decide: '向きを決める', look: '見回す', research: '調べる', rest: '休む', deadend: '行き止まり' };
+
+// ---- 時計を数える ----
+let clock = 0, dist = 0, pos = [0, 0];
+const legs = [];   // 歩いた区間 {t0,t1,from,to,d0}
+const stops = [];  // 立ち止まった行為 {t,pos,dist,...}
+for (const s of STEPS) {
+  if (s.a === 'walk') {
+    const d = Math.hypot(s.to[0] - pos[0], s.to[1] - pos[1]);
+    legs.push({ t0: clock, t1: clock + d / 1000 * 15, from: pos, to: s.to, d0: dist, d });
+    clock += d / 1000 * 15; dist += d; pos = s.to;
+  } else {
+    stops.push({ ...s, t: clock, dur: COST[s.a], pos, dist, id: stops.length });
+    clock += COST[s.a];
+  }
+}
+const NOW = Math.ceil(clock);
+const fmtT = m => Math.floor(m / 60) + ':' + String(Math.floor(m % 60)).padStart(2, '0');
+const fmtPos = p => (START.lat + p[1] / 111000).toFixed(5) + ', ' + (START.lng + p[0] / 82800).toFixed(5);
+const kind = s => s.a === 'deadend' ? 'r' : s.detour ? 'b' : s.find ? 'y' : 'o';
+
+function at(t) { // 時刻 t の位置・距離・していること
+  for (const l of legs) if (t >= l.t0 && t < l.t1) {
+    const k = (t - l.t0) / (l.t1 - l.t0);
+    return { p: [l.from[0] + (l.to[0] - l.from[0]) * k, l.from[1] + (l.to[1] - l.from[1]) * k], d: l.d0 + l.d * k, doing: '歩いている' };
+  }
+  for (const s of stops) if (t >= s.t && t < s.t + s.dur) return { p: s.pos, d: s.dist, doing: s.detour ? '寄っている' : LABEL[s.a] };
+  return { p: pos, d: dist, doing: '歩いている' }; // いま（最後の位置）
+}
+
+// ---- 図 ----
+const svg = document.getElementById('map'), NS = 'http://www.w3.org/2000/svg';
+const el = (n, a, parent = svg) => { const e = document.createElementNS(NS, n); for (const k in a) e.setAttribute(k, a[k]); parent.appendChild(e); return e; };
+const pts = [[0, 0], ...legs.map(l => l.to)];
+const xs = pts.map(p => p[0]), ys = pts.map(p => -p[1]);
+const W = 4, H = 3, M = 420;
+let x0 = Math.min(...xs) - M, x1 = Math.max(...xs) + M, y0 = Math.min(...ys) - M, y1 = Math.max(...ys) + M;
+if ((x1 - x0) / (y1 - y0) > W / H) { const h = (x1 - x0) * H / W, c = (y0 + y1) / 2; y0 = c - h / 2; y1 = c + h / 2; }
+else { const w = (y1 - y0) * W / H, c = (x0 + x1) / 2; x0 = c - w / 2; x1 = c + w / 2; }
+svg.setAttribute('viewBox', `${x0} ${y0} ${x1 - x0} ${y1 - y0}`);
+const u = (x1 - x0) / (svg.clientWidth || 800); // 画面のおよそ1pxにあたる長さ
+for (let gx = Math.ceil(x0 / 500) * 500; gx < x1; gx += 500) el('line', { x1: gx, y1: y0, x2: gx, y2: y1, stroke: 'var(--line)', 'stroke-width': u * .6 });
+for (let gy = Math.ceil(y0 / 500) * 500; gy < y1; gy += 500) el('line', { x1: x0, y1: gy, x2: x1, y2: gy, stroke: 'var(--line)', 'stroke-width': u * .6 });
+const text = (x, y, s, a = {}) => { const t = el('text', { x, y, 'font-size': u * 11, fill: 'var(--sub)', 'font-family': 'var(--mono)', ...a }); t.textContent = s; return t; };
+// 縮尺と方位
+el('line', { x1: x0 + u * 16, y1: y1 - u * 16, x2: x0 + u * 16 + 500, y2: y1 - u * 16, stroke: 'var(--ink)', 'stroke-width': u * 1.25 });
+text(x0 + u * 16, y1 - u * 22, '500 m');
+text(x1 - u * 16, y0 + u * 24, 'N', { 'text-anchor': 'end', fill: 'var(--ink)' });
+el('line', { x1: x1 - u * 20, y1: y0 + u * 30, x2: x1 - u * 20, y2: y0 + u * 52, stroke: 'var(--ink)', 'stroke-width': u * 1.25 });
+const path = el('polyline', { fill: 'none', stroke: 'var(--ink)', 'stroke-width': u * 1.5, 'stroke-linejoin': 'miter', 'stroke-linecap': 'square' });
+// 出発点
+el('rect', { x: -u * 5, y: -u * 5, width: u * 10, height: u * 10, fill: 'var(--ink)' });
+text(u * 10, -u * 9, START.name, { fill: 'var(--ink)' });
+const marks = stops.map(s => {
+  const k = kind(s), c = { r: 'var(--red)', b: 'var(--blue)', y: 'var(--yellow)', o: 'var(--paper)' }[k];
+  const m = el('rect', { x: s.pos[0] - u * 4.5, y: -s.pos[1] - u * 4.5, width: u * 9, height: u * 9, fill: c, stroke: 'var(--ink)', 'stroke-width': u * (k === 'o' ? 1 : .75), style: 'cursor:pointer' });
+  m.addEventListener('click', () => select(s.id, true));
+  return m;
+});
+const ring = el('circle', { r: 6 * u, fill: 'none', stroke: 'var(--ink)', 'stroke-width': u });
+const pulse = el('circle', { r: 6 * u, fill: 'none', stroke: 'var(--ink)', 'stroke-width': u });
+if (!matchMedia('(prefers-reduced-motion:reduce)').matches) pulse.animate([{ r: 6 * u + 'px', opacity: .9 }, { r: 18 * u + 'px', opacity: 0 }], { duration: 1600, iterations: Infinity, easing: 'ease-out' });
+const here = el('circle', { r: 3 * u, fill: 'var(--ink)' });
+const selBox = el('rect', { width: u * 19, height: u * 19, fill: 'none', stroke: 'var(--ink)', 'stroke-width': u, visibility: 'hidden' });
+
+// ---- 一覧 ----
+const list = document.getElementById('list');
+let tab = 'steps', selected = null, T = NOW;
+const inTab = s => tab === 'steps' || (tab === 'finds' && s.find) || (tab === 'diary' && s.a === 'rest') || (tab === 'spots' && s.spot);
+function renderList() {
+  list.innerHTML = '';
+  for (const s of stops) {
+    if (!inTab(s)) continue;
+    const li = document.createElement('li');
+    li.dataset.id = s.id;
+    const main = tab === 'finds' ? s.find : tab === 'spots' ? s.spot : s.text;
+    const head = tab === 'steps' ? `<span class="k">${s.detour ? '寄る' : LABEL[s.a]}</span> ` : '';
+    li.innerHTML = `<span class="num sub">${fmtT(s.t)}</span><span class="dot ${kind(s)}"></span><div class="body">` +
+      (tab === 'diary' ? `<p class="diary">${main}</p>` : `<p>${head}${main}</p>`) +
+      (tab === 'steps' && s.why ? `<p class="why">— ${s.why}</p>` : '') +
+      (tab === 'steps' && s.find ? `<p class="why">＋ ${s.find}</p>` : '') +
+      `<span class="pos num">${fmtPos(s.pos)}</span></div>`;
+    li.addEventListener('click', () => select(s.id, false));
+    list.appendChild(li);
+  }
+  update();
+}
+function select(id, fromMap) {
+  selected = id; const s = stops[id];
+  if (!inTab(s)) { setTab('steps'); }
+  setTime(Math.max(T, s.t + s.dur)); // 先の出来事を選んだら、そこまで進める
+  if (fromMap) list.querySelector(`[data-id="${id}"]`)?.scrollIntoView({ block: 'nearest' });
+}
+function setTab(t) {
+  tab = t;
+  document.querySelectorAll('[data-tab]').forEach(b => b.setAttribute('aria-selected', b.dataset.tab === t));
+  renderList();
+}
+document.querySelectorAll('[data-tab]').forEach(b => b.addEventListener('click', () => setTab(b.dataset.tab)));
+
+// ---- 時刻を動かす ----
+const scrub = document.getElementById('scrub'); scrub.max = NOW;
+const $ = id => document.getElementById(id);
+function setTime(t) { T = Math.max(0, Math.min(NOW, t)); scrub.value = T; update(); }
+function update() {
+  const a = at(T), live = T >= NOW;
+  const walked = [[0, 0]];
+  for (const l of legs) { if (T >= l.t1) walked.push(l.to); else { if (T > l.t0) walked.push(a.p); break; } }
+  path.setAttribute('points', walked.map(p => p[0] + ',' + -p[1]).join(' '));
+  for (const c of [ring, pulse, here]) { c.setAttribute('cx', a.p[0]); c.setAttribute('cy', -a.p[1]); }
+  pulse.setAttribute('visibility', live ? 'visible' : 'hidden');
+  stops.forEach((s, i) => marks[i].setAttribute('visibility', T >= s.t ? 'visible' : 'hidden'));
+  const seen = stops.filter(s => T >= s.t);
+  $('rClock').textContent = fmtT(T); $('rDist').textContent = (a.d / 1000).toFixed(1);
+  $('rCol').textContent = seen.filter(s => s.find).length; $('rStop').textContent = seen.length;
+  $('doing').textContent = a.doing;
+  $('liveText').textContent = live ? '歩いています' : 'たどっています';
+  $('nFinds').textContent = seen.filter(s => s.find).length; $('nDiary').textContent = seen.filter(s => s.a === 'rest').length; $('nSpots').textContent = seen.filter(s => s.spot).length;
+  scrub.style.setProperty('--p', (T / NOW * 100) + '%');
+  let shown = 0;
+  list.querySelectorAll('li[data-id]').forEach(li => {
+    const s = stops[li.dataset.id], f = T < s.t;
+    li.classList.toggle('future', f); if (!f) shown++;
+    li.setAttribute('aria-current', selected == s.id);
+  });
+  list.querySelector('.empty')?.remove();
+  if (!shown) { const e = document.createElement('li'); e.className = 'empty'; e.style.display = 'block'; e.textContent = 'まだ何もありません。'; list.appendChild(e); }
+  const s = selected != null && T >= stops[selected].t ? stops[selected] : null;
+  selBox.setAttribute('visibility', s ? 'visible' : 'hidden');
+  if (s) { selBox.setAttribute('x', s.pos[0] - u * 9.5); selBox.setAttribute('y', -s.pos[1] - u * 9.5); }
+}
+scrub.addEventListener('input', () => { stop(); setTime(+scrub.value); });
+let timer = null;
+function stop() { clearInterval(timer); timer = null; $('play').textContent = 'たどる'; }
+$('play').addEventListener('click', () => {
+  if (timer) return stop();
+  if (T >= NOW) setTime(0);
+  $('play').textContent = '止める';
+  timer = setInterval(() => { if (T >= NOW) return stop(); setTime(T + 1); }, 70);
+});
+$('toStart').addEventListener('click', () => { stop(); selected = null; setTime(0); });
+$('toNow').addEventListener('click', () => { stop(); setTime(NOW); });
+
+// ---- 画面の切り替え ----
+function show(v) {
+  document.querySelectorAll('.view').forEach(s => s.hidden = s.id !== v);
+  document.querySelectorAll('[data-view]').forEach(b => b.toggleAttribute('aria-current', b.dataset.view === v));
+  document.querySelectorAll('[data-view][aria-current]').forEach(b => b.setAttribute('aria-current', 'page'));
+  scrollTo(0, 0);
+}
+document.querySelectorAll('[data-view]').forEach(b => b.addEventListener('click', () => show(b.dataset.view)));
+document.querySelectorAll('[data-go]').forEach(r => r.addEventListener('click', () => show('live')));
+renderList(); setTime(NOW);
+list.scrollTop = list.scrollHeight; // いまの出来事が見えるように
+</script>
+</body>
+</html>
