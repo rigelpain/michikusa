@@ -1,206 +1,165 @@
 <!doctype html>
-<html lang="ja" data-theme="matcha">
+<html lang="ja">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex">
 <title>みちくさ 物語の判定</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Montserrat:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
-/* みちくさ：見た目の決まり（参考 Meta の Astryx / D-026）。
-   変数の名前と値は Astryx のものに合わせてある。主題（テーマ）は変数の上書きだけで替わる。
-   値の出どころ：@astryxdesign/theme-neutral / theme-stone / theme-matcha の theme.css（MIT）。 */
+/* みちくさ：見た目の決まり。
+   変数の名前は Meta の Astryx にならう（D-026）。値と使い方は unslop の手順で整え直した（D-029）。
+   世界：野帳と鉛筆、道ばたの草。面は紙の色、文字は鉛筆の色、苔色は「いま」と「印」にだけ使う。
+   unslop by Damir Sokolovsky (@heydamir), CC BY 4.0 */
 :root{
   color-scheme:light dark;
   --jp:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic","Noto Sans JP";
-  /* neutral */
-  --font-family-body:Figtree,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,var(--jp),sans-serif;
-  --font-family-heading:var(--font-family-body);
-  --font-family-code:ui-monospace,"SF Mono",Monaco,Consolas,var(--jp),monospace;
-  --font-size-sm:.75rem; --font-size-base:.875rem; --font-size-lg:1.0625rem; --font-size-xl:1.25rem; --font-size-2xl:1.5rem; --font-size-3xl:1.8125rem;
-  --leading-body:1.4286; --leading-supporting:1.6667;
-  --color-background-body:light-dark(#f1f1f1,#1b1b1b);
-  --color-background-surface:light-dark(#ffffff,#262626);
-  --color-background-card:light-dark(#ffffff,#262626);
-  --color-background-muted:light-dark(#f1f1f1,#1b1b1b);
-  --color-accent:light-dark(#1b1b1b,#f1f1f1);
-  --color-on-accent:light-dark(#ffffff,#111111);
-  --color-neutral:light-dark(#0000000f,#ffffff1a);
-  --color-overlay-hover:light-dark(#0000000d,#ffffff0d);
-  --color-overlay-pressed:light-dark(#0000001a,#ffffff1a);
-  --color-text-primary:light-dark(#000000,#ffffff);
-  --color-text-secondary:light-dark(#474747,#9e9e9e);
-  --color-text-disabled:light-dark(#919191,#525252);
-  --color-border:light-dark(#00000014,#ffffff1a);
-  --color-border-emphasized:light-dark(#d4d4d4,#525252);
-  --color-track:light-dark(#d4d4d4,#525252);
-  --color-success:light-dark(#198100,#64af4c);
-  --color-warning:#ffce2f;
-  --color-error:light-dark(#c9303a,#ff705d);
-  --color-background-yellow:light-dark(#fae19e,#453a1c); --color-text-yellow:light-dark(#4b3900,#eec448); --color-icon-yellow:light-dark(#e2b623,#e2b623);
-  --color-background-blue:light-dark(#b9d7ff,#253c5a); --color-text-blue:light-dark(#003978,#a1caff); --color-icon-blue:light-dark(#2f6fd0,#88bcff);
-  --color-background-red:light-dark(#ffc4be,#5b2b28); --color-text-red:light-dark(#76000c,#ffaea7); --color-icon-red:light-dark(#c9303a,#ff9890);
-  --color-background-green:light-dark(#bce0bb,#2b422b); --color-text-green:light-dark(#00490b,#90ca90);
-  --radius-inner:.375rem; --radius-element:.625rem; --radius-container:.75rem; --radius-page:1.75rem; --radius-full:9999px;
-  --size-element-sm:28px; --size-element-md:32px; --size-element-lg:36px;
-  --shadow-low:0 2px 4px light-dark(#0000000d,#00000040),0 4px 8px light-dark(#0000001a,#00000066);
-  --spacing-0-5:.125rem; --spacing-1:.25rem; --spacing-1-5:.375rem; --spacing-2:.5rem; --spacing-3:.75rem; --spacing-4:1rem; --spacing-5:1.25rem; --spacing-6:1.5rem; --spacing-8:2rem; --spacing-10:2.5rem; --spacing-12:3rem;
-  --duration-fast:125ms; --duration-medium:300ms;
-  --ease-standard:cubic-bezier(.24,1,.4,1);
-  --weight-heading-3:700;
-}
-[data-theme=stone]{
-  --font-family-heading:Montserrat,Figtree,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,var(--jp),sans-serif;
-  --font-family-code:"JetBrains Mono","SF Mono",Monaco,Consolas,var(--jp),monospace;
-  --font-size-sm:.75rem; --font-size-lg:1.125rem; --font-size-xl:1.375rem; --font-size-2xl:1.6875rem; --font-size-3xl:2.125rem;
-  --color-background-body:light-dark(#f0f0f7,#101018);
-  --color-background-surface:light-dark(#ffffff,#1b1b21);
-  --color-background-card:light-dark(#ffffff,#25252a);
-  --color-background-muted:light-dark(#e2e2e8,#3a3a42);
-  --color-accent:light-dark(#25252a,#f0f0f9);
-  --color-on-accent:light-dark(#ffffff,#25252a);
-  --color-neutral:light-dark(#25252a0f,#f0f0f91a);
-  --color-overlay-hover:light-dark(#25252a0d,#f0f0f90d);
-  --color-overlay-pressed:light-dark(#25252a1a,#f0f0f91a);
-  --color-text-primary:light-dark(#25252a,#f0f0f9);
-  --color-text-secondary:light-dark(#5f5f64,#ababb3);
-  --color-text-disabled:light-dark(#d4d3dd,#5e5e64);
-  --color-border:light-dark(#e2e2e8,#f0f0f91a);
-  --color-border-emphasized:light-dark(#848489,#5e5e64);
-  --color-track:light-dark(#d4d3dd,#5e5e64);
-  --color-success:light-dark(#354f31,#b3d0af);
-  --color-warning:light-dark(#524818,#d9c794);
-  --color-error:light-dark(#603c37,#e0bdb8);
-  --color-background-yellow:light-dark(#f4e1b7,#615620); --color-text-yellow:light-dark(#524818,#f1e1b9); --color-icon-yellow:light-dark(#d9bd6a,#d9c794);
-  --color-background-blue:light-dark(#d3e4fc,#445469); --color-text-blue:light-dark(#344861,#d5e4f8); --color-icon-blue:light-dark(#6f8fb8,#a9c3e6);
-  --color-background-red:light-dark(#fbdad4,#684a45); --color-text-red:light-dark(#603c37,#f7dbd7); --color-icon-red:light-dark(#b0685e,#e0bdb8);
-  --color-background-green:light-dark(#d2eccf,#3e5d38); --color-text-green:light-dark(#354f31,#d5e9d2);
-  --radius-inner:.25rem; --radius-element:.5rem; --radius-container:.75rem; --radius-page:1.5rem;
-  --shadow-low:0 2px 4px #25252a0d,0 4px 8px #25252a1a;
-}
-[data-theme=matcha]{
   --font-family-body:"DM Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,var(--jp),sans-serif;
   --font-family-heading:var(--font-family-body);
   --font-family-code:"JetBrains Mono","SF Mono",Monaco,Consolas,var(--jp),monospace;
-  --font-size-sm:.8125rem; --font-size-base:1rem; --font-size-lg:1.25rem; --font-size-xl:1.5625rem; --font-size-2xl:1.9375rem; --font-size-3xl:2.4375rem;
-  --leading-body:1.5; --leading-supporting:1.5385;
-  --color-background-body:light-dark(#f0f0e0,#12140e);
-  --color-background-surface:light-dark(#ffffff,#1a1c14);
-  --color-background-card:light-dark(#ffffff,#1e2016);
-  --color-background-muted:light-dark(#f0f0e0,#3e481d);
-  --color-accent:light-dark(#3e481d,#c0cba9);
-  --color-on-accent:light-dark(#ffffff,#3e481d);
-  --color-neutral:light-dark(#3e481d0f,#c0cba91a);
-  --color-overlay-hover:light-dark(#3e481d0d,#c0cba90d);
-  --color-overlay-pressed:light-dark(#3e481d1a,#c0cba91a);
-  --color-text-primary:light-dark(#3e481d,#c0cba9);
-  --color-text-secondary:light-dark(#707e46,#94a468);
-  --color-text-disabled:light-dark(#c0cba9,#5a6440);
-  --color-border:light-dark(#dce3ce,#c0cba91a);
-  --color-border-emphasized:light-dark(#b7c29e,#5a6440);
-  --color-track:light-dark(#dce3ce,#5a6440);
-  --color-success:light-dark(#4d9900,#6dbf2a);
-  --color-warning:light-dark(#f2c000,#f6d066);
-  --color-error:light-dark(#fd0000,#ff5c5c);
-  --color-background-yellow:light-dark(#f2c00033,#f6d06633); --color-text-yellow:light-dark(#8a6c00,#ffe08b); --color-icon-yellow:light-dark(#f2c000,#f6d066);
-  --color-background-blue:#3a5e8c33; --color-text-blue:light-dark(#2e4a6e,#8dbce0); --color-icon-blue:light-dark(#3a5e8c,#7ba8d4);
-  --color-background-red:light-dark(#fd000026,#ff5c5c33); --color-text-red:light-dark(#cc0000,#ff7a7a); --color-icon-red:light-dark(#fd0000,#ff5c5c);
-  --color-background-green:light-dark(#4d990033,#6dbf2a33); --color-text-green:light-dark(#3d7a00,#80d43a);
-  --radius-inner:6px; --radius-element:12px; --radius-container:18px; --radius-page:42px;
-  --size-element-sm:36px; --size-element-md:40px; --size-element-lg:44px;
-  --spacing-4:1.5rem;
-  --shadow-low:0 2px 4px #3e481d0d,0 4px 8px #3e481d1a;
-  --weight-heading-3:600;
+  --font-size-sm:.8125rem; --font-size-base:.9375rem; --font-size-lg:1.0625rem; --font-size-xl:1.375rem; --font-size-2xl:1.625rem;
+  --leading-body:1.6; --leading-supporting:1.55;
+  /* 面：紙。3段だけ */
+  --color-background-body:light-dark(#f7f4ee,#161513);
+  --color-background-surface:light-dark(#fdfbf7,#1c1a18);
+  --color-background-card:light-dark(#fdfbf7,#1c1a18);
+  --color-background-muted:light-dark(#efe9df,#262421);
+  /* 文字：鉛筆。役割は3つ */
+  --color-text-primary:light-dark(#1f1b16,#efe9de);
+  --color-text-secondary:light-dark(#5e554a,#aaa398);
+  --color-text-muted:light-dark(#7b7266,#8a847a);
+  --color-text-disabled:var(--color-text-muted);
+  /* 罫：文字の色を薄くしたもの */
+  --color-border:light-dark(#1f1b1614,#efe9de17);
+  --color-border-emphasized:light-dark(#1f1b1633,#efe9de38);
+  --color-track:var(--color-border-emphasized);
+  --color-neutral:light-dark(#1f1b160d,#efe9de12);
+  --color-overlay-hover:light-dark(#1f1b160a,#efe9de0d);
+  --color-overlay-pressed:light-dark(#1f1b1614,#efe9de1a);
+  /* 苔色：いまいる場所と、つけた印にだけ */
+  --color-accent:light-dark(#55652f,#b4c48a);
+  --color-on-accent:light-dark(#fdfbf7,#161513);
+  --color-success:var(--color-accent);
+  /* 図の色：道ばたで見る色に寄せて、どれも少しくすませる */
+  --color-icon-yellow:light-dark(#c2932e,#d9b25c);
+  --color-icon-blue:light-dark(#5f7d96,#8fabc2);
+  --color-icon-red:light-dark(#a8523f,#d08a78);
+  --color-warning:var(--color-icon-yellow);
+  --color-error:var(--color-icon-red);
+  --color-background-yellow:light-dark(#c2932e24,#d9b25c26); --color-text-yellow:light-dark(#6f5212,#e3c57e);
+  --radius-inner:6px; --radius-element:8px; --radius-container:14px; --radius-full:9999px;
+  --size-element-sm:28px; --size-element-md:36px;
+  --spacing-0-5:.125rem; --spacing-1:.25rem; --spacing-2:.5rem; --spacing-3:.75rem; --spacing-4:1rem; --spacing-5:1.25rem; --spacing-6:1.5rem; --spacing-8:2rem; --spacing-10:2.5rem; --spacing-12:3rem;
+  --card-pad:var(--spacing-5);
+  --duration-fast:150ms;
+  --ease-standard:cubic-bezier(.22,1,.36,1);
 }
-[data-mode=light]{color-scheme:light} [data-mode=dark]{color-scheme:dark}
 
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--color-background-body);color:var(--color-text-primary);font:400 var(--font-size-base)/var(--leading-body) var(--font-family-body);-webkit-font-smoothing:antialiased}
 button,input,textarea{font:inherit;color:inherit}
 a{color:inherit;text-underline-offset:3px}
-:focus-visible{outline:2px solid var(--color-accent);outline-offset:3px}
+:focus-visible{outline:2px solid var(--color-accent);outline-offset:2px}
 h1,h2,h3,p,ul,ol,dl,dd{margin:0}
 ul,ol{padding:0;list-style:none}
 .num{font-variant-numeric:tabular-nums}
+.mono{font-family:var(--font-family-code);font-variant-numeric:tabular-nums}
 .sub{color:var(--color-text-secondary)}
+.quiet{color:var(--color-text-muted);font-size:var(--font-size-sm)}
 .small{font-size:var(--font-size-sm);line-height:var(--leading-supporting)}
-code,pre{font-family:var(--font-family-code)}
+code,pre{font-family:var(--font-family-code);font-size:.92em}
 [hidden]{display:none!important}
 
-/* 型：役割で使い分ける */
-h1{font:600 var(--font-size-2xl)/1.35 var(--font-family-heading)}
-h2{font:600 var(--font-size-base)/var(--leading-body) var(--font-family-body)}
-.h3{font:var(--weight-heading-3) var(--font-size-lg)/1.4 var(--font-family-body)}
+/* 型：大きさで差をつける。太さは 400 と 500 だけ */
+h1{font:500 var(--font-size-2xl)/1.3 var(--font-family-heading)}
+h2{font:500 var(--font-size-base)/var(--leading-body) var(--font-family-body)}
+.h3{font:500 var(--font-size-lg)/1.4 var(--font-family-body)}
 .label{font-weight:500}
 
-/* 上の帯（TopNav） */
-.topnav{position:sticky;top:0;z-index:5;background:var(--color-background-surface);border-bottom:1px solid var(--color-border)}
-.topnav>div{max-width:1200px;margin:0 auto;padding:var(--spacing-2) var(--spacing-5);display:flex;align-items:center;gap:var(--spacing-4);flex-wrap:wrap}
-.brand{font:600 var(--font-size-lg)/1 var(--font-family-heading);display:flex;align-items:center;gap:var(--spacing-2);margin-right:auto;white-space:nowrap}
-.brand i{width:10px;height:10px;border-radius:var(--radius-full);background:var(--color-accent);display:inline-block}
-.navitems{display:flex;gap:var(--spacing-1)}
-.navitem{height:var(--size-element-md);padding:0 var(--spacing-3);border:0;border-radius:var(--radius-element);background:none;cursor:pointer;font-weight:500;color:var(--color-text-secondary);display:inline-flex;align-items:center;text-decoration:none;transition:background-color var(--duration-fast) var(--ease-standard)}
-.navitem[aria-current=page]{background:var(--color-neutral);color:var(--color-text-primary)}
+/* 上の帯 */
+.topnav{position:sticky;top:0;z-index:5;background:var(--color-background-body);border-bottom:1px solid var(--color-border)}
+.topnav>div{max-width:1160px;margin:0 auto;padding:var(--spacing-2) var(--spacing-6);display:flex;align-items:center;gap:var(--spacing-4)}
+.brand{font:500 var(--font-size-lg)/1 var(--font-family-heading);display:flex;align-items:center;gap:var(--spacing-2);margin-right:auto;white-space:nowrap}
+.brand svg{width:20px;height:20px;flex:none}
+.brand .quiet{font-weight:400}
+.navitems{display:flex;gap:var(--spacing-1);overflow-x:auto}
+.navitem{height:var(--size-element-md);padding:0 var(--spacing-3);border:0;border-radius:var(--radius-element);background:none;cursor:pointer;color:var(--color-text-secondary);display:inline-flex;align-items:center;white-space:nowrap;text-decoration:none;transition:background-color var(--duration-fast) var(--ease-standard),color var(--duration-fast) var(--ease-standard)}
+.navitem[aria-current=page]{background:var(--color-neutral);color:var(--color-text-primary);font-weight:500}
 
 /* ページ */
-.page{max-width:1200px;margin:0 auto;padding:var(--spacing-8) var(--spacing-5) var(--spacing-12);display:grid;gap:var(--spacing-6)}
-.pagehead{display:flex;align-items:flex-end;justify-content:space-between;gap:var(--spacing-3) var(--spacing-4);flex-wrap:wrap}
+.page{max-width:1160px;margin:0 auto;padding:var(--spacing-10) var(--spacing-6) var(--spacing-12);display:grid;gap:var(--spacing-6)}
+.pagehead{display:flex;align-items:flex-end;justify-content:space-between;gap:var(--spacing-2) var(--spacing-4);flex-wrap:wrap}
 .pagehead>div:first-child{display:grid;gap:var(--spacing-1)}
-.row{display:flex;align-items:center;gap:var(--spacing-2);flex-wrap:wrap}
+.row{display:flex;align-items:center;gap:var(--spacing-2) var(--spacing-3);flex-wrap:wrap}
 
-/* カード */
-.card{background:var(--color-background-card);border:1px solid var(--color-border);border-radius:var(--radius-container);padding:var(--spacing-4);min-width:0;display:grid;gap:var(--spacing-3);align-content:start}
-.cardhead{display:flex;align-items:center;justify-content:space-between;gap:var(--spacing-2);flex-wrap:wrap}
-.bleed{margin-inline:calc(-1*var(--spacing-4))}
-.card>.bleed:last-child{margin-bottom:calc(-1*var(--spacing-4))}
+/* カード：紙を1枚置くだけ。影はつけない */
+.card{background:var(--color-background-card);border:1px solid var(--color-border);border-radius:var(--radius-container);padding:var(--card-pad);min-width:0;display:grid;gap:var(--spacing-4);align-content:start}
+.cardhead{display:flex;align-items:baseline;justify-content:space-between;gap:var(--spacing-2);flex-wrap:wrap}
+.bleed{margin-inline:calc(-1*var(--card-pad))}
+.card>.bleed:last-child{margin-bottom:calc(-1*var(--card-pad))}
 
-/* バッジと点 */
-.badge{display:inline-flex;align-items:center;gap:var(--spacing-1);height:1.25rem;padding:0 var(--spacing-2);border-radius:var(--radius-full);background:var(--color-neutral);font-size:var(--font-size-sm);font-weight:500;white-space:nowrap;line-height:1}
-.badge.y{background:var(--color-background-yellow);color:var(--color-text-yellow)}
-.badge.b{background:var(--color-background-blue);color:var(--color-text-blue)}
-.badge.r{background:var(--color-background-red);color:var(--color-text-red)}
-.badge.g{background:var(--color-background-green);color:var(--color-text-green)}
-.dot{width:8px;height:8px;border-radius:var(--radius-full);background:var(--color-text-disabled);display:inline-block;flex:none}
-.dot.ok{background:var(--color-success)} .dot.warn{background:var(--color-warning)} .dot.err{background:var(--color-error)} .dot.on{background:var(--color-accent)}
+/* 状態は文字で言う。点は「いま動いている」ものと、図の凡例にだけ */
+.state{display:inline-flex;align-items:center;gap:var(--spacing-2);color:var(--color-text-secondary);font-size:var(--font-size-sm);white-space:nowrap}
+.state.bad{color:var(--color-error)}
+.dot{width:8px;height:8px;border-radius:var(--radius-full);background:var(--color-text-muted);display:inline-block;flex:none}
+.dot.on{background:var(--color-accent)}
 .dot.y{background:var(--color-icon-yellow)} .dot.b{background:var(--color-icon-blue)} .dot.r{background:var(--color-icon-red)}
-.dot.o{background:var(--color-background-card);box-shadow:inset 0 0 0 1.5px var(--color-text-secondary)}
+.dot.o{background:var(--color-background-card);box-shadow:inset 0 0 0 2px var(--color-text-primary)}
+/* 集めたものだけ、小さな札にする */
+.find{display:inline-flex;align-items:center;min-height:24px;padding:0 var(--spacing-2);border-radius:var(--radius-inner);background:var(--color-background-yellow);color:var(--color-text-yellow);font-size:var(--font-size-sm)}
 
-/* ボタン：主役は1つだけ塗る */
+/* ボタン：塗るのは主役の1つだけ。色は鉛筆の色 */
 .btn{height:var(--size-element-md);padding:0 var(--spacing-3);border:0;border-radius:var(--radius-element);background:var(--color-neutral);font-weight:500;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:var(--spacing-2);white-space:nowrap;position:relative;transition:background-color var(--duration-fast) var(--ease-standard),transform var(--duration-fast) var(--ease-standard)}
-.btn.primary{background:var(--color-accent);color:var(--color-on-accent)}
-.btn.ghost{background:none}
-.btn:disabled{color:var(--color-text-disabled);cursor:default}
+.btn.primary{background:var(--color-text-primary);color:var(--color-background-card)}
+.btn.ghost{background:none;font-weight:400;color:var(--color-text-secondary)}
+.btn:disabled{color:var(--color-text-muted);cursor:default}
 .btn:active:not(:disabled){transform:scale(.98)}
 @media (hover:hover){
-  .btn:not(.primary):not(:disabled):hover,.navitem:not([aria-current=page]):hover{background:var(--color-overlay-pressed)}
-  .btn.ghost:not(:disabled):hover{background:var(--color-overlay-hover)}
-  .btn.primary:hover{background-image:linear-gradient(var(--color-overlay-pressed),var(--color-overlay-pressed))}
+  .btn:not(.primary):not(:disabled):hover,.navitem:not([aria-current=page]):hover{background:var(--color-overlay-pressed);color:var(--color-text-primary)}
+  .btn.primary:hover{background:var(--color-text-secondary)}
 }
-@media (pointer:coarse){.btn:before{content:"";position:absolute;inset:-6px 0}}
+@media (pointer:coarse){.btn:before{content:"";position:absolute;inset:-4px 0}}
 
-/* 切り替え（SegmentedControl） */
+/* 切り替え */
 .seg{display:inline-flex;gap:var(--spacing-0-5);padding:var(--spacing-0-5);background:var(--color-neutral);border-radius:calc(var(--radius-element) + var(--spacing-0-5));max-width:100%;overflow-x:auto}
-.seg button{height:calc(var(--size-element-md) - 4px);padding:0 var(--spacing-3);border:0;border-radius:var(--radius-element);background:none;cursor:pointer;font-weight:500;color:var(--color-text-secondary);display:inline-flex;align-items:center;gap:var(--spacing-1-5);white-space:nowrap;transition:background-color var(--duration-fast) var(--ease-standard)}
-.seg [aria-selected=true],.seg [aria-pressed=true]{background:var(--color-background-surface);color:var(--color-text-primary);box-shadow:0 1px 2px light-dark(#0000001f,#00000066)}
-.seg.sm button{height:calc(var(--size-element-sm) - 4px);padding:0 var(--spacing-2);font-size:var(--font-size-sm)}
+.seg button{height:calc(var(--size-element-md) - 4px);padding:0 var(--spacing-3);border:0;border-radius:var(--radius-element);background:none;cursor:pointer;color:var(--color-text-secondary);display:inline-flex;align-items:center;gap:var(--spacing-2);white-space:nowrap;transition:background-color var(--duration-fast) var(--ease-standard),color var(--duration-fast) var(--ease-standard)}
+.seg [aria-selected=true],.seg [aria-pressed=true]{background:var(--color-background-card);color:var(--color-text-primary);font-weight:500;box-shadow:0 0 0 1px var(--color-border)}
+.seg button .n{color:var(--color-text-muted);font-weight:400;font-size:var(--font-size-sm)}
 
-/* 数字の札 */
-.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--spacing-3)}
-.stat{gap:var(--spacing-1)}
-.stat dt{color:var(--color-text-secondary);font-size:var(--font-size-sm)}
-.stat dd{font:600 var(--font-size-xl)/1.3 var(--font-family-body)}
-.stat dd small{font:400 var(--font-size-sm)/1 var(--font-family-body);color:var(--color-text-secondary)}
-.track{height:8px;border-radius:var(--radius-full);background:var(--color-background-muted);overflow:hidden;margin-top:var(--spacing-1)}
-.track i{display:block;height:100%;border-radius:var(--radius-full);background:var(--color-accent)}
+/* 数字の並び：札に分けず、1本の帯にする。数字と名前だけ */
+.stats{display:grid;grid-template-columns:1.6fr repeat(3,minmax(0,1fr));border-block:1px solid var(--color-border)}
+.stats>div{padding:var(--spacing-4) var(--spacing-5);display:grid;gap:var(--spacing-1);align-content:start}
+.stats>div:first-child{padding-left:0}
+.stats>div+div{border-left:1px solid var(--color-border)}
+.stats dt{color:var(--color-text-secondary);font-size:var(--font-size-sm)}
+.stats dd{font:500 var(--font-size-xl)/1.3 var(--font-family-body);font-variant-numeric:tabular-nums}
+.stats dd small{font:400 var(--font-size-sm)/1 var(--font-family-body);color:var(--color-text-muted)}
 
-/* 並び（List / Item） */
-.items>li{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:var(--spacing-3);align-items:center;padding:var(--spacing-2) var(--spacing-4);border-top:1px solid var(--color-border)}
-.items>li>.dot{justify-self:center}
-.items .end{color:var(--color-text-secondary);font-size:var(--font-size-sm);text-align:right}
+/* 道の線：時刻の横を1本の線が通り、立ち止まった所に丸がつく。地図の道すじと同じ描き方。
+   歩みの一覧、物語、段階の3か所で使う */
+.rail>li{display:grid;grid-template-columns:2.75rem 12px minmax(0,1fr);column-gap:var(--spacing-3);padding-inline:var(--card-pad)}
+.rail .t{font:400 var(--font-size-sm)/1.85 var(--font-family-code);font-variant-numeric:tabular-nums;color:var(--color-text-muted);text-align:right}
+.rail .stop{position:relative;display:flex;justify-content:center}
+.rail .stop::before{content:"";position:absolute;top:0;bottom:0;left:5px;width:2px;background:var(--color-text-primary);opacity:.85}
+.rail>li:first-child .stop::before{top:.75em}
+.rail>li.end .stop::before{bottom:auto;height:.75em}
+.rail .stop i{position:relative;margin-top:.42em;width:12px;height:12px;border-radius:var(--radius-full);background:var(--color-background-card);box-shadow:inset 0 0 0 2px var(--color-text-primary)}
+.rail .stop i.y{background:var(--color-icon-yellow);box-shadow:0 0 0 2px var(--color-background-card)}
+.rail .stop i.b{background:var(--color-icon-blue);box-shadow:0 0 0 2px var(--color-background-card)}
+.rail .stop i.r{background:var(--color-icon-red);box-shadow:0 0 0 2px var(--color-background-card)}
+.rail .body{display:grid;gap:var(--spacing-1);justify-items:start;padding-bottom:var(--spacing-5);min-width:0}
+.rail .act{color:var(--color-text-muted);font-size:var(--font-size-sm);line-height:1.85}
+.rail .why{color:var(--color-text-secondary)}
 
-/* 対の並び（MetadataList） */
+/* 並び */
+.items>li{display:flex;align-items:baseline;gap:var(--spacing-3);padding:var(--spacing-2) var(--card-pad);border-top:1px solid var(--color-border)}
+.items .lead{font:400 var(--font-size-sm)/1.85 var(--font-family-code);color:var(--color-text-muted);flex:none;min-width:1.25rem}
+.items .end{margin-left:auto;padding-left:var(--spacing-3);color:var(--color-text-muted);font-size:var(--font-size-sm);text-align:right;flex:none;max-width:50%}
+.items .end.done{color:var(--color-text-primary)}
+
+/* 対の並び */
 .meta{display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--spacing-2) var(--spacing-5)}
 .meta dt{color:var(--color-text-secondary)}
 
@@ -208,106 +167,92 @@ h2{font:600 var(--font-size-base)/var(--leading-body) var(--font-family-body)}
 .scroll{overflow-x:auto}
 table{border-collapse:collapse;width:100%}
 th,td{text-align:left;padding:var(--spacing-2) var(--spacing-3);border-top:1px solid var(--color-border);white-space:nowrap}
-th{font-weight:500;font-size:var(--font-size-sm);color:var(--color-text-secondary);border-top:0}
-th:first-child,td:first-child{padding-left:var(--spacing-4)} th:last-child,td:last-child{padding-right:var(--spacing-4)}
+th{font-weight:400;font-size:var(--font-size-sm);color:var(--color-text-muted);border-top:0}
+th:first-child,td:first-child{padding-left:var(--card-pad)} th:last-child,td:last-child{padding-right:var(--card-pad)}
 td.r,th.r{text-align:right}
-td.wrap{white-space:normal}
 
-.foot{max-width:1200px;margin:0 auto;padding:0 var(--spacing-5) var(--spacing-10);color:var(--color-text-secondary);font-size:var(--font-size-sm)}
+.foot{max-width:1160px;margin:0 auto;padding:0 var(--spacing-6) var(--spacing-10);color:var(--color-text-muted);font-size:var(--font-size-sm)}
 @media (max-width:860px){
   .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .page{padding-top:var(--spacing-5);gap:var(--spacing-4)}
-  .topnav>div{padding-inline:var(--spacing-4)} .page,.foot{padding-inline:var(--spacing-4)}
+  .stats>div{padding:var(--spacing-3) var(--spacing-4)}
+  .stats>div:nth-child(odd){padding-left:0;border-left:0}
+  .stats>div:nth-child(n+3){border-top:1px solid var(--color-border)}
+  .page{padding-top:var(--spacing-6);gap:var(--spacing-5)}
+  .topnav>div,.page,.foot{padding-inline:var(--spacing-4)}
+  .topnav>div{gap:var(--spacing-2)}
+  .navitem{padding:0 var(--spacing-2)}
+  :root{--card-pad:var(--spacing-4)}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
-<script>
-// 見本だけの仕掛け：主題（Astryx のテーマ）を切り替えて見比べる。選んだものはこの端末に覚えておく。
-(() => {
-  const root = document.documentElement, KEY = 'mk-theme';
-  let saved = null; try { saved = localStorage.getItem(KEY); } catch {}
-  const set = t => {
-    root.dataset.theme = t; try { localStorage.setItem(KEY, t); } catch {}
-    document.querySelectorAll('[data-set-theme]').forEach(b => b.setAttribute('aria-pressed', b.dataset.setTheme === t));
-    document.dispatchEvent(new Event('themechange'));
-  };
-  root.dataset.theme = saved || root.dataset.theme || 'matcha';
-  addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('[data-set-theme]').forEach(b => b.addEventListener('click', () => set(b.dataset.setTheme)));
-    set(root.dataset.theme);
-  });
-})();
-</script>
 <style>
-.page{max-width:46rem}
-.story{display:grid;gap:var(--spacing-4)}
-.story h2{font-size:var(--font-size-xl,1.5rem)}
-.steps{list-style:none;margin:0;padding:0}
-.steps li{display:grid;grid-template-columns:2.75rem minmax(0,1fr);gap:var(--spacing-3);padding:var(--spacing-3) var(--spacing-4);border-top:1px solid var(--color-border);cursor:pointer;transition:background var(--duration-fast) var(--ease-standard)}
-.steps li:hover{background:var(--color-background-muted)}
-.steps li[aria-pressed=true]{background:var(--color-background-muted)}
-.steps li:focus-visible{outline:2px solid var(--color-accent);outline-offset:-2px}
-.steps li.flow{display:flex;justify-content:center;padding:0;border-top:1px solid var(--color-border);cursor:default}
-.steps li.flow:hover{background:none}
-.flowbtn{all:unset;box-sizing:border-box;cursor:pointer;width:100%;text-align:center;padding:var(--spacing-1) var(--spacing-4);font-size:var(--font-size-sm);color:var(--color-text-secondary);transition:background var(--duration-fast) var(--ease-standard)}
-.flowbtn:hover{background:var(--color-background-muted)}
-.flowbtn:focus-visible{outline:2px solid var(--color-accent);outline-offset:-2px}
-.flowbtn[aria-pressed=true]{background:var(--color-background-muted);color:var(--color-text);font-weight:500}
+.page{max-width:44rem}
+.how{display:grid;gap:var(--spacing-2);color:var(--color-text-secondary);max-width:36rem}
+.how ol{list-style:decimal;padding-left:1.4em;display:grid;gap:var(--spacing-1)}
+#list{display:grid;gap:var(--spacing-5)}
+.story{gap:var(--spacing-5)}
 .story>*{min-width:0}
-.story .steps{margin-inline:0}
-.story .steps li:not(.flow){padding-inline:0}
-.judge .seg{max-width:100%;overflow-x:auto}
-.steps p{margin:0}
-.steps .why{color:var(--color-text-secondary);font-size:var(--font-size-sm)}
-.steps .txt{display:grid;gap:var(--spacing-1)}
-.steps .mark{display:none;margin-left:var(--spacing-2)}
-.steps li[aria-pressed=true] .mark{display:inline-flex}
-textarea{width:100%;min-height:4.5rem;box-sizing:border-box;padding:var(--spacing-2) var(--spacing-3);border:1px solid var(--color-border);border-radius:var(--radius-element);background:var(--color-background);color:inherit;font:inherit;resize:vertical}
-textarea:focus-visible{outline:2px solid var(--color-accent);outline-offset:3px}
-.judge{display:flex;flex-wrap:wrap;gap:var(--spacing-3);align-items:center;justify-content:space-between}
-.stickbar{position:sticky;bottom:0;background:var(--color-background-card,var(--color-background));border-top:1px solid var(--color-border);padding:var(--spacing-3) var(--spacing-4);display:flex;gap:var(--spacing-3);align-items:center;justify-content:space-between;flex-wrap:wrap}
-#out{display:none;margin-top:var(--spacing-3)}
+.story h2{font-size:var(--font-size-xl);line-height:1.4}
+.story .top{display:grid;gap:var(--spacing-1)}
+.story .start,.story .last{line-height:1.85}
+/* 場面：押すと丸が苔色になる。場面のあいだの線：押すとその区間が苔色になる */
+.rail .step{cursor:pointer;transition:background-color var(--duration-fast) var(--ease-standard)}
+.rail .step .body{padding-bottom:var(--spacing-2);padding-top:var(--spacing-0-5)}
+.rail .step p{line-height:1.85}
+.rail .step .mark{display:none;color:var(--color-accent);font-weight:500}
+.rail .step[aria-pressed=true] .mark{display:inline}
+.rail .step[aria-pressed=true] .stop i{background:var(--color-accent);box-shadow:0 0 0 2px var(--color-background-card)}
+.rail .step:focus-visible,.flowbtn:focus-visible{outline:2px solid var(--color-accent);outline-offset:-2px}
+.rail li.flow{display:block;padding:0}
+.flowbtn{all:unset;box-sizing:border-box;cursor:pointer;width:100%;min-height:32px;display:grid;grid-template-columns:2.75rem 12px minmax(0,1fr);column-gap:var(--spacing-3);align-items:center;padding-inline:var(--card-pad);font-size:var(--font-size-sm);color:var(--color-text-muted);transition:background-color var(--duration-fast) var(--ease-standard)}
+.flowbtn .stop{align-self:stretch}
+.flowbtn[aria-pressed=true]{color:var(--color-accent);font-weight:500}
+.flowbtn[aria-pressed=true] .stop::before{background:var(--color-accent);opacity:1;width:4px;left:4px}
+@media (hover:hover){.rail .step:hover,.flowbtn:hover{background:var(--color-overlay-hover)}}
+.judge{display:grid;gap:var(--spacing-3);padding-top:var(--spacing-5);border-top:1px solid var(--color-border)}
+.judge>div{display:flex;flex-wrap:wrap;gap:var(--spacing-2) var(--spacing-3);align-items:center;justify-content:space-between}
+textarea{width:100%;min-height:4.5rem;padding:var(--spacing-2) var(--spacing-3);border:1px solid var(--color-border-emphasized);border-radius:var(--radius-element);background:var(--color-background-card);resize:vertical;display:block}
+textarea::placeholder{color:var(--color-text-muted)}
+.stickbar{position:sticky;bottom:0;background:var(--color-background-body);border-top:1px solid var(--color-border)}
+.stickbar>div{max-width:44rem;margin:0 auto;padding:var(--spacing-3) var(--spacing-6);display:flex;gap:var(--spacing-3);align-items:center;justify-content:space-between}
+#out{display:none}
+@media (max-width:860px){.stickbar>div{padding-inline:var(--spacing-4)}}
 </style>
 </head>
 <body>
 <header class="topnav"><div>
-  <span class="brand"><i></i>みちくさ <span class="badge">開発</span></span>
+  <span class="brand"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 16V9.5l8.2-3.3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="14.5" cy="5.5" r="2.5" stroke="currentColor" stroke-width="2"/></svg> みちくさ <span class="quiet">開発</span></span>
   <nav class="navitems" aria-label="おもな行き先">
     <a class="navitem" href="../">様子</a>
-    <a class="navitem" href="./" aria-current="page">物語の判定</a>
-    <a class="navitem" href="../../">公開側の見本</a>
+    <a class="navitem" href="./" aria-current="page">物語</a>
+    <a class="navitem" href="../../">公開側</a>
   </nav>
-  <div class="seg sm" role="group" aria-label="見本の主題">
-    <button data-set-theme="matcha">Matcha</button><button data-set-theme="stone">Stone</button><button data-set-theme="neutral">Neutral</button>
-  </div>
 </div></header>
 
 <main class="page">
   <div class="pagehead">
-    <div><h1>物語の判定</h1><p class="sub">景色なしの散歩の物語です。読んで、好みを教えてください。</p></div>
-    <div class="row"><span class="badge num" id="round"></span><span class="badge g num" id="count"></span></div>
+    <div><h1>物語の判定</h1><p class="sub">景色なしで書いた散歩の物語です。読んで、好みを教えてください</p></div>
+    <span class="state num" id="round"></span>
   </div>
 
-  <section class="card">
-    <div class="cardhead"><h2>やり方</h2></div>
-    <ul class="items bleed">
-      <li><span class="dot on"></span><span>物語ごとに「すき・ふつう・ちがう」を選ぶ</span><span class="end"></span></li>
-      <li><span class="dot on"></span><span>気に入った場面は、押すと印がつく</span><span class="end"></span></li>
-      <li><span class="dot on"></span><span>場面と場面のあいだの「↓」を押すと、その流れに印がつく。続けて押せば長い展開になる</span><span class="end"></span></li>
-      <li><span class="dot on"></span><span>一言あれば書く。知らなかったけど面白い、もここへ</span><span class="end"></span></li>
-      <li><span class="dot on"></span><span>最後に「結果をコピー」して、チャットに貼る</span><span class="end"></span></li>
-    </ul>
-    <p class="sub small">答えはこの端末のブラウザにだけ残ります。どこにも送りません。</p>
-  </section>
+  <div class="how">
+    <ol>
+      <li>気に入った場面を押すと、丸に印がつく</li>
+      <li>場面のあいだの線を押すと、その流れに印がつく。続けて押せば長い展開になる</li>
+      <li>物語ごとに「すき・ふつう・ちがう」を選ぶ。一言あれば書く</li>
+      <li>最後に「結果をコピー」して、チャットに貼る</li>
+    </ol>
+    <p class="quiet">答えはこの端末のブラウザにだけ残ります。どこにも送りません。</p>
+  </div>
 
-  <div id="list" style="display:grid;gap:var(--spacing-5,1.25rem)"></div>
+  <div id="list"></div>
   <textarea id="out" readonly aria-label="結果"></textarea>
 </main>
 
-<div class="stickbar">
-  <span class="sub small" id="status"></span>
+<div class="stickbar"><div>
+  <span class="sub small num" id="status"></span>
   <button class="btn primary" id="copy">結果をコピー</button>
-</div>
+</div></div>
 
 <script>
 const DATA = {"round":"02","stories":[{"id":"02-01","title":"水と土の匂い","way":"遠くの白い倉庫を目標に定め、足元の細かな変化にだけ目を配りながら一直線に近づく。","start":"町の北端にあるバス営業所の裏口。朝の送迎で使われたマイクロバスが、清掃中の水で濡れている。","minutes":180,"steps":[{"clock":"0:00","act":"向きを決める","text":"営業所の敷地を出て、脇の細い農道を南へ下がる。道の向こう、地平線の近くで農協の大型倉庫の白い壁が光っている。","why":"その白さが今日の目的地だから。"},{"clock":"0:08","act":"調べる","text":"道端のコンクリート水路に、朝にかけられた水がまだ残っている。水草が少し生え、石に苔が乗っている。","why":"水の流れが滞っていないか確認したかった。"},{"clock":"0:15","act":"寄る","text":"片側だけの瓦屋根を持つ小さな物置の前を通る。開かれたままの扉に、使えなくなった籐箕が干されていた。","why":"風が通って干されている様子が気になった。"},{"clock":"0:25","act":"見回す","text":"前方に広がる畝では、連なって立つ支柱が風で鳴っている。その奥で、耕う機がエンジン音を轟かせて走っている。","why":"機械の振動が地面に伝わってきた。"},{"clock":"0:34","act":"調べる","text":"農道の脇に置かれた、錆びた鉄製の支柱立て。先端は尖っていて、まだ使えそうだ。","why":"誰かが直近で使い、置き忘れたのかもしれない。"},{"clock":"0:48","act":"行き止まり","text":"一本の林道にぶつかる。入口には「私道立入禁止」の札が、新しい木の下に立てられている。","why":"進む道が切れたので、引き返す方向を考える。"},{"clock":"0:52","act":"向きを決める","text":"林道から見て見えた、川沿いの直売所の屋根を捉える。そこから倉庫へ戻る方が近い。","why":"直売所の匂いや気配を知りたくなった。"},{"clock":"1:10","act":"調べる","text":"直売所の裏手。野菜の出荷に使う段ボール箱が積み上げられ、その足元に土嚢が並んでいる。","why":"積まれた状態で、作業の途中であることが分かるから。"},{"clock":"1:25","act":"見回す","text":"川の上流から流れてくる水音が、周囲の雑草の生え方を変えている。水面は少し波打っている。","why":"風が吹いているのが伝わる。"},{"clock":"1:40","act":"寄る","text":"橋の袂に置かれた、古い石造りの井戸。縁の石は磨耗していて、誰かが触れた痕跡がある。","why":"その形状が現代のものとは異なる。"},{"clock":"2:05","act":"休む","text":"橋の袂のベンチに腰を下ろす。遠くで、バスのクラクションが一度だけ鳴った。","why":"歩いた足が疲れたから。"},{"clock":"2:15","act":"向きを決める","text":"倉庫の白い壁が、川の向こうに見えている。まだ少し距離がある。","why":"目標を再確認して、最終区間に入る。"},{"clock":"2:50","act":"調べる","text":"倉庫の裏手。積み上げられた肥料袋が、雨よけのビニールで覆われている。その下で、土の匂いがこもっている。","why":"保管状態が整っているか確かめたかった。"},{"clock":"3:00","act":"帰着","text":"倉庫を出て、来た道を少し横切って、バス営業所の裏口に戻る。マイクロバスの洗浄は終わっていた。","why":"予定の時間を終え、出発点に戻った。"}],"returned":true,"last":"町の循環が、静かに回っている。"},{"id":"02-02","title":"湯気の輪郭","way":"出発点を中心に半径1km以内で、視覚と音覚に頼って微細な動線を描く。","start":"河川沿いの温泉街の入口にある、古い造りの公衆浴場。平日の午後、湯気が空気に溶け込むように漂っている。","minutes":40,"steps":[{"clock":"0:00","act":"見回す","text":"脱衣所の入口にある靴箱の隙間から漏れる湯気と、湿った空気。壁に貼られた開館時間と、その下に追加された手書きの「本日終了時間17:30」の紙。","why":"この場の時間的制約を確認し、帰着のための基準点にする。"},{"clock":"0:04","act":"向きを決める","text":"浴場の裏手、川への階段を眺めながら、右へ、町中の商店街方面へ足を進めることにする。","why":"背後の川の流れを確認し、風向きが川から町へ吹いていることを感知したため。"},{"clock":"0:09","act":"寄る","text":"商店街の角にある、閉店したらしい和菓子店のシャッター。錆びた金具が緑の苔を纏い、シャッターの隙間から内部の埃の層が覗く。","why":"動いている町の中に、時間が止まったかのような層を見るため。"},{"clock":"0:13","act":"調べる","text":"すぐ隣の開いている土産物屋の前を通り過ぎる時、棚の上の湯呑みが光を反射して揺れている。店の奥から、包装紙を折る音がする。","why":"音と光の対比を確認し、町の脈拍を捉える。"},{"clock":"0:18","act":"見回す","text":"道端に並んだ植木鉢。アザレオンの花弁が散り、コンクリートの縁に白い斑点を作っている。水遣りの水滴がまだ残る。","why":"手入れの痕跡を確認し、誰かの日常の範囲を示す。"},{"clock":"0:23","act":"行き止まり","text":"商店街の端、橋の袂。川面が光っており、その向こうの対岸の山並みが薄い青で描かれている。川を渡る橋の上を、バスが一台ゆっくり通り過ぎる。","why":"町の境界線を確認し、ここより先は歩行の範囲外だと判断した。"},{"clock":"0:27","act":"休む","text":"橋の手すりにつかまり、川の音に耳を傾ける。水が石を叩く音が規則的で、町の騒音よりも鮮明だ。","why":"視覚情報を整理し、足への負担を減らすため。"},{"clock":"0:31","act":"向きを決める","text":"橋を降りずに折り返し、もう一つの道、細い路地へ向かう。","why":"同じ空間を別の角度から見ることで、立体感を得たい。"},{"clock":"0:34","act":"調べる","text":"路地の角にある小さな祠。御神札の文字が日差しで褪せているが、新しいものが下書きのように貼り付けられている。","why":"時間の重ね合わせを確認する。"},{"clock":"0:37","act":"見回す","text":"建物の庇の下に干してある洗濯物。白と青色の布が、微風に揺れて影を動かし、地面の石畳を明るくしている。","why":"生活の気配を、視覚的な揺らぎとして確認する。"},{"clock":"0:39","act":"帰りを決める","text":"商店街のアーチをくぐり、公衆浴場の看板が見えてくる。湯気が、夕暮れの空気に混ざり始めている。","why":"時間的制約（17:30閉店）と、光の変化を確認し、出発点に戻る道順を確定する。"},{"clock":"0:40","act":"帰着","text":"脱衣所の入口に戻る。先ほど見た「本日終了時間17:30」の紙が、風に少し揺れている。靴箱の隙間から、湯気がまだ立ち上っている。","why":"最初の視点と比較し、時間の経過と空間の循環を確認するため。"}],"returned":true,"last":"湯気は変わらないが、光の質が変わっていた。"},{"id":"02-03","title":"夕暮れ前の商店街散策","way":"気まぐれに道を外れて、帰りは時間ぎりぎりになる","start":"駅前バス停から、アーケードのある商店街","minutes":120,"steps":[{"clock":"0:00","act":"見回す","text":"バス停のベンチに座り、駅前広場の車道を眺める。夕方を告げる黄色いバスが通過していく。","why":"どこへ行くか決める前に、町の呼吸を整えるため。"},{"clock":"0:15","act":"向きを決める","text":"アーケードの入口で、金物屋の窓ガラスに反射する夕日を捉える。鉄製の部品が所狭しと並んでいる。","why":"金属の匂いと、まだ明るい店内の光に引かれて。"},{"clock":"0:30","act":"寄る","text":"八百屋の前で足を止める。露店に出された瓜類や葉物が、水を含んで輝いている。","why":"夕食用の準備をしている気配を確かめるため。"},{"clock":"0:45","act":"調べる","text":"学習塾の看板を覗き込む。今度の試験日程と、そのための講習の案内が貼られている。","why":"町の時間の流れ、特に教育のサイクルを知りたかったから。"},{"clock":"1:00","act":"休む","text":"商店街の端、古い和菓子店の前で立ち止まる。店内から漂う甘い匂いと、客の立ち話の気配。","why":"歩いた疲れを癒し、次の方向を考えるため。"},{"clock":"1:30","act":"見回す","text":"路地を逸れた場所。洗濯物が干された竿の列と、それを繋ぐ電線の交差する風景。","why":"住宅街の静けさと、生活の匂いを確かめたくて。"},{"clock":"2:00","act":"向きを決める","text":"川の土手への坂道で、川沿いの道へ降りる。遠くで汽笛の音がする。","why":"町の境界線と、自然の要素を見てみたいから。"},{"clock":"2:45","act":"見回す","text":"川沿いの遊歩道。ベンチに置かれたままの紙パック飲料と、風に揺れる柳の枝。","why":"一時的な休息の痕跡と、季節の移ろいを同時に感じたから。"},{"clock":"3:30","act":"寄る","text":"古い橋の袂で、釣り竿の気配。水面に映る空が、茜色になり始めている。","why":"夕暮れの光が最も美しい場所を確かめたかった。"},{"clock":"4:00","act":"行き止まり","text":"橋を渡りきれない場所。工事の仮囲いと、作業員の工具が散乱している。","why":"町の改修と、その過程を垣間見たかったから。"},{"clock":"4:30","act":"帰りを決める","text":"戻り道の途中で、夕焼けが空を染めている。足早に歩きたくなる。","why":"光が失われ、町が夜になるときに、元の場所に戻りたかった。"},{"clock":"5:00","act":"帰着","text":"駅前バス停のベンチに戻る。もう暗くなり、街灯が点灯している。","why":"最初に見た風景と、終わった後の風景を対比するため。"}],"returned":true,"last":"町の一日の終わりを、自分の足で辿った。"},{"id":"02-04","title":"裏山の香りと製材所","way":"表通りに出ず、建物の裏手や塀の隙間を縫い、匂いや光の導きで道を辿る","start":"山の麓にある公民館と、静かだが風で揺れる杉の葉","minutes":45,"steps":[{"clock":"0:00","act":"向きを決める","text":"公民館の裏口から出る。正面の表通りではなく、横に延びる舗装された狭い路地の奥を見る。","why":"人の往来が少ない、建物と建物の間の空間で町の奥行きを感じたかった。"},{"clock":"0:08","act":"調べる","text":"路地を進むと、裏手から続く細い石畳の坂道が見える。脇には古い塀があり、その隙間から製材所の煙突が覗く。","why":"煙突の存在感に惹かれ、その背後にある作業場や木材の山を確認したかった。"},{"clock":"0:15","act":"立ち止まる","text":"坂道の途中、手すりにかけられたブルーシートが風で膨らむ。下から機械の低音が微かに伝わる。","why":"音がする方、町の心臓に近い場所へ足を向けた。"},{"clock":"0:22","act":"見回す","text":"製材所の裏庭の柵際まで出る。地面には新鮮な木片が散らばり、空気が杉の香りで満たされている。","why":"素材の質感と匂いを直接肌で感じたかった。"},{"clock":"0:30","act":"向きを決める","text":"木材置き場の脇、竹垣の隙間から山側への土の登り口が見える。","why":"町の中ではなく、町の源である山側の傾斜へと移動したかった。"},{"clock":"0:45","act":"歩く","text":"土の登りを登る。足元には倒れた杉の枝が転がっており、空気は澄んでいる。","why":"町を離れ、自然との境界線を歩いてみたいと思った。"},{"clock":"0:58","act":"見回す","text":"傾斜地の途中、小さな湧水が石を越えて流れている。水音だけが響いている。","why":"町の乾燥した空気とは違う、湿り気のある清涼さを求めて立ち止まった。"},{"clock":"1:05","act":"向きを決める","text":"少し先で道が二手に分かれる。左手は急な登り、右手は緩やかに林を横切る。","why":"高度を上げずに、林の奥へ横へ向かい、視界の変化を見たかった。"},{"clock":"1:15","act":"調べる","text":"林の縁の道を進むと、山肌を覆う杉林と、その向こうの町並みが一枚の絵のように並ぶ。","why":"町と山の対比を、中間地点から一望したかった。"},{"clock":"1:25","act":"見回す","text":"林の中を歩く人用の狭い板道が、町の裏通りへと降りている。","why":"山側からの帰還ルートとして、町への入り口を確認した。"},{"clock":"1:35","act":"立ち止まる","text":"板道が下ると、裏通りの路地裏に突き出す。ここにきて、町の生活音が戻ってくる。","why":"山側から裏通りへ出たことで、町の輪郭を確認したかった。"},{"clock":"1:42","act":"向きを決める","text":"路地の奥から、公民館の裏門が視界に入る。","why":"出発点への最短ルートを確保するため、裏手から近道した。"},{"clock":"1:48","act":"見回す","text":"公民館の裏門の手前で、裏庭の柵際まで戻ってきた。","why":"来た道を反時計回りで閉じ、散歩の循環を完遂した。"},{"clock":"1:55","act":"帰着","text":"公民館の裏口で立ち止まり、風で揺れる杉の葉をもう一度見る。","why":"出発点に戻ることで、町の循環に参加した満足感を得た。"}],"returned":true,"last":"町の裏側で、山の匂いと町の中の音を同時に受けて、息を整えた。"},{"id":"02-05","title":"土曜の午前、水と紙の跡","way":"視線の高さを下げ、足元のコンクリートの割れ目や壁の貼紙の角から、町の呼吸を探す。","start":"郊外のバス停兼公民館前、朝露の引いた舗装路と静かな駐車場","minutes":120,"steps":[{"clock":"0:00","act":"調べる","text":"公民館入口の掲示板に、「第3日曜日まで多目的ホール使用可」の紙が張られている。その下には、先週の日曜の公民館主催の「古紙回収」の控えがまだ残っている。","why":"この町の生活リズムを掴むため、まず公的な動きの痕跡を確認する。"},{"clock":"0:05","act":"向きを決める","text":"バス通り方面へ向かう。アスファルトの継ぎ目に草が伸びており、昨夜の雨で土が盛り上がり、路面が微妙に波打っているのが分かる。","why":"バス通りは町の動脈で、人の気配が最も濃い場所だから。"},{"clock":"0:12","act":"見回す","text":"交差点の角にあるコンビニの自動販売機。牛乳パックの回収箱が満杯で、蓋が少し浮いている。中から白い光が漏れ、朝の空気を冷やしている。","why":"「使われている物」の限界を確認し、町の代謝の速度を知るため。"},{"clock":"0:20","act":"寄る","text":"住宅街の細い路地に入る。ブロック塀の上に、赤いビニール傘が一つだけ干されている。傘の骨の先に水滴が揺れ、落ちる直前で止まっている。","why":"「置きっぱなしの物」と手入れの境界線にあるものを観察したいから。"},{"clock":"0:28","act":"調べる","text":"古い集落の入口にある石碑の裏面。苔の間に、近所の人たちが書いたと思われる小さな落書きが混じっている。日付は数日前のもの。","why":"公的な記念物と私的な使用が同居する場を確認するため。"},{"clock":"0:35","act":"向きを決める","text":"石碑の奥に、古い水路が見える。水は澄んでおり、底の砂利まで見通せる。水路沿いの石畳が湿って光っている。","why":"水路をたどれば、町のもう一つの顔、調整池へと続くかもしれないという見通しがある。"},{"clock":"0:45","act":"見回す","text":"水路脇に置かれたプラスチック製の椅子。背もたれに日焼けの跡があり、座面には落ち葉が数枚積もっている。誰も座っていないが、使い道は示されている。","why":"「手入れされている物」と「自然に還ろうとしている物」の対比を見るため。"},{"clock":"0:52","act":"調べる","text":"調整池の堤防に立っている看板。水位の目盛りと、最近の日付の測定記録が貼ってある。数字は微動してはおらず、雨がなかったことが分かる。","why":"天気と町の状態の関連性を確認するため。"},{"clock":"1:05","act":"向きを決める","text":"調整池を左に回り込む。池の向こうには新しい住宅地の建設予定地があり、仮設のフェンスで囲まれている。フェンスには「工事開始までしばらくお待ちください」との札。","why":"「今」と「これから」の境界を確認するために、予定地の方へ向かう。"},{"clock":"1:15","act":"見回す","text":"フェンスの足元に、前日に降った雨でできた水たまりが一つ。その中に、空の雲の形が正確に映っている。風が無く、水面は静かだ。","why":"動いている物と、静止して映す物との関係を見るため。"},{"clock":"1:25","act":"調べる","text":"スーパーの駐車場への通路。アスファルトに白い線が引かれ、その上に段ボールの箱が一つ置かれている。箱は平らに潰され、テープで留められている。","why":"廃棄物の扱い方から、町の清潔さや管理の具合を推測するため。"},{"clock":"1:35","act":"休む","text":"スーパーの入口の庇の下に立ち止まる。自動ドアが反応し、冷えた空気が流れ出る。中からレジのチャイム音と、人の会話の輪郭が聞こえる。","why":"外の世界の観察から、内側の気配に耳を傾けるため。"},{"clock":"1:45","act":"向きを決める","text":"帰りの道を選ぶ。公園経由で公民館に戻る。公園の遊具は錆びておらず、金属部分に油が塗ってあった痕跡がある。","why":"手入れされた物に触れることで、町に居る人々の存在を感じたいから。"},{"clock":"1:58","act":"帰着","text":"公民館前の駐車場に戻る。先ほどの掲示板は同じだが、足元のアスファルトの草むらが変わっている。歩く方向によって、同じ町も別の顔を持つ。","why":"出発点に戻り、町の全体像を俯瞰する。"}],"returned":true,"last":"紙と水と、油の匂いが、この町の土曜の午前を描いていた。"},{"id":"02-06","title":"潮風と氷の匂い","way":"使われ続ける物や音を追う","start":"漁協の集会所前、夜明け前の静寂が残る中","minutes":120,"steps":[{"clock":"0:00","act":"見回す","text":"集会所の鉄扉は開いており、中には湿った生ごみのような強烈な魚の臭いが漏れ出ている。外には漁網の端が乾いて風に揺れている。","why":"この町はまだ眠っていないことを確認するため。"},{"clock":"0:06","act":"向きを決める","text":"集会所から海沿いの坂を降り、市場の方向へ向かう。足元は濡れた砂利道で、靴底がしつこく鳴る。","why":"市場が開き始める瞬間を見たいから。"},{"clock":"0:14","act":"寄る","text":"市場の横にある製氷所の前に立ち止まる。トラックの荷台がスロープに接し、作業員が氷の塊を転がしている音がする。","why":"氷の白さと、その冷気による空気の歪みを観察するため。"},{"clock":"0:22","act":"調べる","text":"近くの柱に貼られた求人紙を読む。内容は「網の修理を手伝える人」とだけ書いてあり、裏面には破れた魚の図解が映り込んでいる。","why":"誰かが今まさにその仕事を求めていることを確認するため。"},{"clock":"0:30","act":"向きを決める","text":"製氷所を離れ、港の奥へ通る狭い路地へ。路地の壁には藻の汁が乾いて白く染みついている。","why":"港の本丸である作業場へ向かうため。"},{"clock":"0:41","act":"見回す","text":"網の修理場の屋外エリア。大きなロープが輪にして敷かれ、その上で誰かが座って編んでいるのが見える。手袋をした手だけが動く。","why":"道具の使い込まれ方を観察するため。"},{"clock":"0:48","act":"調べる","text":"使われていないコンプレッサーが一台、砂埃を被って置かれている。排気口からはまだ熱を放っており、使われていたことが分かる。","why":"この場の熱源と作業の規模感を測るため。"},{"clock":"0:55","act":"向きを決める","text":"修理場を抜け、港の外周路を回る。右手には停泊中の船が揺れ、左手には町の住宅地が緩やかに傾いている。","why":"港全体を見渡して、次の行き先を探すため。"},{"clock":"1:04","act":"寄る","text":"外周路のベンチに腰を下ろす。向かいの埠頭では、漁師が船へ荷物を積んでいる。ロープが張られた音だけが響く。","why":"一時的な休息として、町の息継ぎを観察するため。"},{"clock":"1:12","act":"向きを決める","text":"ベンチを離れ、港の奥にある食堂街へ向かう。道路は徐々にアスファルトになり、車の音が大きくなる。","why":"働く人々が集まる場所へ移動するため。"},{"clock":"1:25","act":"調べる","text":"食堂の一枚看板に「今日も営業中」と手書きの札が出ている。窓から出る湯気の多さで、既に多くの客が訪れたことが分かる。","why":"町の生活が回っている証拠を確認するため。"},{"clock":"1:35","act":"見回す","text":"食堂前の軒先。靴を脱いで入るための台に、泥と砂が積もっている。誰かが今まさに足を踏んできている跡が新しい。","why":"人々の動きの速度感を把握するため。"},{"clock":"1:48","act":"向きを決める","text":"食堂街を離れ、港の入口にある大きな交差点へ向かう。バスが一台、ゆっくりと停車している。","why":"町外から入ってくる物と、出っていく物の出入り口を確認するため。"},{"clock":"1:55","act":"帰りを決める","text":"交差点を渡り、来た道を戻る。太陽が上がり、影が短くなり始めている。潮の匂いはまだ強いが、空気は乾燥してくる。","why":"出発点である集会所へ戻るため。"}],"returned":true,"last":"港はまだ動いている"},{"id":"02-07","title":"下流の風","way":"上流から下流へ流れ着き、折り返して上流へ戻る","start":"川沿いの古い郵便局と、風で揺れる旗","minutes":120,"steps":[{"clock":"0:00","act":"出会う","text":"郵便局を出て、堤防に上がる階段を登る。靴裏に砂利の感触。","why":"川の流れを見るために最も近い高所へ。"},{"clock":"0:08","act":"見回す","text":"手すりから河川敷を見下ろす。グラウンドのネットに風が溜まり、膨らんでいる。","why":"風の強さと向きを確認したかった。"},{"clock":"0:15","act":"向きを決める","text":"下流方向へ足を向け、アスファルトの路面を歩く。向かい風で耳が聞こえにくい。","why":"風の流れに乗ってではなく、逆らって町の奥へ入ってみようと思った。"},{"clock":"0:28","act":"寄る","text":"水門の操作小屋の前で立ち止まる。鉄扉の前に、雨樋の錆が赤い線を描いている。","why":"金属と水との接触点に興味があった。"},{"clock":"0:35","act":"調べる","text":"水門の横に置かれた簡易トイレの裏側を覗く。苔がコンクリートの角を覆っている。","why":"人の手の届かない場所の変化を見たかった。"},{"clock":"0:50","act":"行き止まり","text":"古い橋の手前で、工事の仮囲いにぶつかる。向こう側は見えない。","why":"物理的な境界で、先の見通しが断たれたため。"},{"clock":"0:55","act":"休む","text":"仮囲いの隅にあるベンチに腰を下ろす。工事中の振動が地面から伝わる。","why":"足への負担と、周囲の音の変化を確かめたかった。"},{"clock":"1:05","act":"見回す","text":"ベンチから立ち上がり、工場群の方角へ視線を移す。排気口から白い煙がゆっくり立ち上がっている。","why":"町の上にある空の状況を知りたかった。"},{"clock":"1:12","act":"向きを決める","text":"橋を渡らず、河川敷の道へ戻る。今度は上流方向へ歩く。","why":"来た道を、今度は下り風に乗りながら戻ってみたかった。"},{"clock":"1:30","act":"寄り道","text":"途中の商店街を横断する。薬局の窓から薬草の香りが混じる。","why":"建物の間の気配を確かめたかった。"},{"clock":"1:45","act":"調べる","text":"公民館の掲示板の前で立ち止まる。近所の清掃日の予定が貼られている。","why":"町の規則や時間の流れを示すものを読みたかった。"},{"clock":"1:55","act":"見回す","text":"堤防の縁に座る人たちの背が見える。誰もこちらを見ていない。","why":"自分の存在が風景の一部になっているか確認したかった。"},{"clock":"2:05","act":"帰りを決める","text":"郵便局の階段が見えてくる。同じ光線だが、角度が変わっている。","why":"出発点の視認で、帰還の可否を判断した。"},{"clock":"2:10","act":"帰着","text":"郵便局の柱時計を確認し、中へ入る。風は止まっている。","why":"外の風と内の静けさの対比を締めくくりとして見たかった。"}],"returned":true,"last":"風はまだ吹いている"},{"id":"02-08","title":"城跡の影を辿る","way":"予定のない足で、期待外れの先から帰る道を選ぶ","start":"町立図書館と、春の午後の光を浴びる古い町並み","minutes":90,"steps":[{"clock":"0:00","act":"見回す","text":"図書館を出て、目の前の石畳の道を確認する。春の午後の光が、古びた石垣の影を長く落としている。","why":"城跡への道を、まずは目で確かめておきたかったから。"},{"clock":"0:08","act":"向きを決める","text":"用水沿いの道を東へ、城址公園方面へ向かう。水音だけが、町の喧騒を遮って聞こえる。","why":"城址公園なら、この町らしい景色が見えるかもしれないと思った。"},{"clock":"0:15","act":"寄る","text":"途中の和菓子屋の前で、焼きたての餅の匂いに引き寄せられて立ち止まる。店の戸は開いていて、内側で包みが包まれている音がする。","why":"この町の息遣いを感じたかったから。"},{"clock":"0:22","act":"調べる","text":"城址公園の入口にある説明看板を読む。古い地図が描かれていて、堀の跡が太い線で示されている。","why":"この町の成り立ちを、一瞬で知りたいと思った。"},{"clock":"0:30","act":"見回す","text":"城址公園の展望台に登る。町全体を見渡せるはずだったが、春の若木が葉を茂らせ、視界を遮っていた。","why":"この町の全容を、一度に見てみたかったから。"},{"clock":"0:35","act":"休む","text":"展望台のベンチに座り、公園内の木々を眺める。風で葉が揺れ、光が地面に落ちる。","why":"少し、体を休めたかった。"},{"clock":"0:40","act":"向きを決める","text":"公園を裏口から出る。寺の並ぶ通りが見えたので、そちらへ向かう。","why":"展望台からの景色は期待外れだった。別の景色を求めた。"},{"clock":"0:52","act":"寄る","text":"寺の参道に入らず、その脇の古い石垣に沿って歩く。苔が、石の隙間に生えている。","why":"寺の中より、その縁の景色に惹かれた。"},{"clock":"1:00","act":"調べる","text":"石垣の途中にある、古い井戸の蓋を確認する。錆びてはいるが、手入れの跡がある。","why":"この町の歴史が、今も続いているか確かめたかった。"},{"clock":"1:10","act":"見回す","text":"石垣沿いの道を歩きながら、路地に入っていく。古い町家が、立ち並んでいる。","why":"この町の本質が、ここにあると思った。"},{"clock":"1:18","act":"寄る","text":"路地の奥にある、古い物置の前に立つ。中に、古い農機具が何点か、置かれている。","why":"この町の、かつての生活を知りたかった。"},{"clock":"1:25","act":"見回す","text":"物置の奥から、用水の支流が見える。水が、静かに流れている。","why":"この町の、静かな側面を知りたかった。"},{"clock":"1:30","act":"帰りを決める","text":"用水沿いの道を、図書館へ戻る。春の午後の光が、もう少し斜めに差してきている。","why":"歩き足りないと感じたから。"},{"clock":"1:45","act":"帰着","text":"図書館の前に戻り、石畳の道を確認する。先ほどとは、光の角度が違う。","why":"歩きを終えたかった。"}],"returned":true,"last":"予定のなかった帰り道が、一番面白かった。"},{"id":"02-09","title":"暑さの残滓と油の匂い","way":"国道沿いの喧噪から田園の静寂へ、感覚の変化を追って斜めに入っていく。","start":"町の中心部にある大型のスーパーマーケットの駐車場。夕方の買い物客とトラックの出入りで騒がしい。","minutes":45,"steps":[{"clock":"0:00","act":"出発","text":"スーパーの裏口側の駐車場を抜け、国道沿いの歩道へ出る。アスファルトの熱気が足元から立ち上り、タイヤの焦げついた匂いが混じる。","why":"人混みを避け、町の外周部へと向かうための最初の切り替え。"},{"clock":"0:05","act":"見回す","text":"ガソリンスタンドの給油ポンプの前で足を止める。レジャー用タンクに燃料を移し替えている作業員の手元が、夕焼けの光でくっきりと浮いている。","why":"町の経済活動の拍動を確認するため。"},{"clock":"0:10","act":"向きを決める","text":"トラックの往来が途切れ、農機具店の大きなシャッターが半分開け放たれているのを見て、裏手にある古い水路沿いの道を歩くことにする。","why":"車道から少し離れ、自然の匂いを求めて脇へ逸れるため。"},{"clock":"0:15","act":"調べる","text":"水路の畔に置かれた、使っていない古い井戸の蓋を覗き込む。蓋の内側は青苔に覆われ、水滴が静かに落ちている音がする。","why":"使われなくなった物の状態を知り、かつての水辺の生活の痕跡を確認するため。"},{"clock":"0:20","act":"寄る","text":"ラーメン屋の裏手の倉庫の窓から、湯気の匂いが漏れている。外には使われた丼の山があり、店員がせっかちに流しの蛇口で洗っている。","why":"町の生活の中心となる食の現場を間近に見たい。"},{"clock":"0:25","act":"歩き続ける","text":"裏道を抜け、突然視界が開ける。手前に田んぼが広がり、稲が風で波打っている音がする。空はオレンジから紫へと変化している。","why":"建物の間から抜け出した際の開放感を楽しむため。"},{"clock":"0:30","act":"見回す","text":"田んぼの脇に、刈り取られた籾殻の山がある。その上に、夕暮れを待っているカラスが数羽留まっている。","why":"農業のサイクルの終わりと、それを待つ動物の存在を確認するため。"},{"clock":"0:35","act":"調べる","text":"水路を渡る小さなコンクリート橋の手前で足を止める。欄干に、誰かが落書きのような落書き風のマークを残してある。","why":"この場所に人を残した痕跡を探すため。"},{"clock":"0:40","act":"休む","text":"橋の陰でしばらく立ち止まり、足元の湿気を感じる。田んぼの向こうで、稲穂が擦れる音が聞こえる。","why":"歩き続けた足元を整え、周囲の音の変化を感じ取るため。"},{"clock":"0:50","act":"向きを決める","text":"田んぼの道を抜けて、また小さな住宅街の路地に入る。ここは、国道から少し内側に入った、少し生活臭の強い通り。","why":"帰路につく前に、町の生活の匂いをもう一度吸い込むため。"},{"clock":"0:55","act":"見回す","text":"路地の角にある洗濯物干し台が見える。夕方に風が吹いているため、白い布団が膨らみ、乾いている。","why":"町の生活の質を、物を通して確認するため。"},{"clock":"1:00","act":"帰りを決める","text":"スーパーの駐車場が見え、その灯りがともり始めている。ここから戻るルートを確認して歩き始める。","why":"帰路の視界を確保し、出発点に向かうため。"},{"clock":"1:05","act":"帰着","text":"スーパーの駐車場に帰り、入り口で靴を履き直す。外の空気と、建物の内部の空調の気温差を体感する。","why":"散歩を締めくくり、町の内部へと戻るため。"}],"returned":true,"last":"町の外周は、夕方の熱と、夜への移行を感じさせてくれた。"},{"id":"02-10","title":"音で歩く冬の日","way":"目ではなく耳で道を選ぶ。作業音、機械音、水音、放送の方向へ向かう。","start":"旧街道沿いの郵便局。冬の光で白く浮き上がる団地の段々風景を背にして立つ。","minutes":180,"steps":[{"clock":"0:00","act":"見回す","text":"郵便局を出る。正面の通りは静かだが、左側の細い路地から金属を叩くようなリズムが聞こえる。","why":"規則的な音が気になり、その源を探したかったから。"},{"clock":"0:08","act":"寄る","text":"路地の奥にある小さな金物店。店主が外に出て、サビた鉄板をグラインダーで削っている。火花が散る。","why":"音の正体を確かめるため。"},{"clock":"0:15","act":"向きを決める","text":"店の裏手は高台への急な坂になっている。坂の上から給水塔が見える。塔の下でポンプが唸っているのが聞こえる。","why":"低周波の音が高台から届いており、そこに行けば音の輪郭が見える気がしたから。"},{"clock":"0:35","act":"調べる","text":"坂の途中で立ち止まる。手すりの釘に付着した落ち葉を払い、下の商店街を確認する。生協のトラックがバックで入庫している音がする。","why":"坂を上りきった後の移動先を、音の強弱で判断するため。"},{"clock":"0:45","act":"休む","text":"坂の途中のベンチに座る。ベンチの木の欠けが少し取れていて、最近誰かが座った形跡がある。","why":"呼吸を整え、耳を澄ませるため。"},{"clock":"0:55","act":"向きを決める","text":"給水塔の方向を離れ、商店街の方へ下りる。パン屋のパンチーの蒸気が出ている音が、かすかに「シュー」と聞こえる。","why":"熱を持つ音は、町の朝の活力を示すから。"},{"clock":"1:10","act":"調べる","text":"パン屋の前に止まる。ショーケース内の温風機のファン音が一定している。店員の声が聞こえるが、内容は不明瞭。","why":"風の音の方向から、空気の動きを読むため。"},{"clock":"1:25","act":"向きを決める","text":"商店街を抜け、小学校の裏口へ向かう小径に入る。遠くでチャイムが鳴り、児童の靴音が続いている。","why":"集団の移動音は、町の中心部への道しるべになると思ったから。"},{"clock":"1:40","act":"行き止まり","text":"小径が塀で閉じられている。塀越しに、運動場で球を打ちつける音が響く。","why":"通れなかった。音だけが越えてくる。"},{"clock":"1:48","act":"向きを決める","text":"塀に沿って歩き、裏手の側門を見つける。そこは開いていた。側門の外は、団地の遊具広場になっている。","why":"音の向こう側にある空間を、別の角度から覗き見たかったから。"},{"clock":"2:05","act":"見回す","text":"広場の隅で、自動販売機の冷却音と、風の音。誰もいないが、缶が倒れて転がる音がした。","why":"音だけで空間の状況を把握してみるため。"},{"clock":"2:15","act":"向きを決める","text":"広場の階段を下り、旧道の通りに戻る。バスのエンジン音が近づいてくる。","why":"交通音は、町の流れを示すから。"},{"clock":"2:30","act":"休む","text":"郵便局の手前の交差点で立ち止まる。信号の切り替え音が、カチリと鳴る。","why":"戻りの道を確認し、歩幅を揃えるため。"},{"clock":"2:50","act":"帰着","text":"郵便局の入口に戻る。入り口の引き戸が、風の気配で微かに揺れている。","why":"出発点に戻り、歩きを終えるため。"}],"returned":true,"last":"音だけが、町を繋いでいた。"},{"id":"02-11","title":"錆びたロープと朝の湯気","way":"視線を落とし、足元と物の縁に沿って、風の向かい風を避けるように歩む","start":"湖の畔の簡易郵便局、霧が晴れた直後の湿った空気","minutes":180,"steps":[{"clock":"0:00","act":"見回す","text":"郵便局の自動販売機の裏に落ちた枯葉が、まだ朝露で湿っている。外は薄く晴れているが、湖の向こう側は白い。","why":"乾いているか湿っているかで、今日はどこまで歩けるか見当をつけたい。"},{"clock":"0:05","act":"向きを決める","text":"湖岸の砂利道を沿って、キャンプ場の入口標識がある方へ足を向ける。右手に開いているレンタサイクルの店舗が見える。","why":"人が動く気配がある場所から、まずは活気のある方へ向かう。"},{"clock":"0:12","act":"調べる","text":"レンタサイクル店の外の駐輪場。数台の自転車が並び、一番手前のサドルの下に挟まれたままの古い新聞紙が見える。日付は先月。","why":"誰かが忘れていったのか、あるいは意図的に置いたものか、その状態を確認したい。"},{"clock":"0:18","act":"見回す","text":"駐輪場の隅、コンクリートの割れ目に生えた苔が、まだ濃い緑のまま。水はけが悪い場所だけ、湿気が残っている。","why":"水の流れや滞留を知る手がかりとして、植物の状態で地形を読む。"},{"clock":"0:25","act":"寄り","text":"キャンプ場の管理棟の裏手。焚火の跡に残った焦げつくした炭の塊が、いくつか石の上に置かれている。火はまだ完全には消えていない匂いがする。","why":"昨夜の熱の残滓から、この場所の使われ方の強度を感じたい。"},{"clock":"0:35","act":"立ち止まる","text":"管理棟の窓から、誰かが戸棚の中を物色する気配と、軽やかな足音。外からでは声は聞こえないが、ドアノブが動く振動が伝わってくる。","why":"人の活動の中心を知り、次の移動先として、人の流れに逆らう方向を選ぶ。"},{"clock":"0:42","act":"向きを決める","text":"管理棟を背にして、湖の対岸側へ延びる細い遊歩道へ。木漏れ日がまだ林に届ききっていない。","why":"影の中にあるものを、明るい光の中で見るより先に観察したい。"},{"clock":"0:55","act":"調べる","text":"遊歩道の脇、倒れた木の幹に寄生したキノコ。傘の裏に白い粉が積もっている。触ると指先に微かに付着する。","why":"生命の細かな営みを、触覚を通して確認する。"},{"clock":"1:10","act":"見回す","text":"遊歩道と、舗装された湖岸道路が交差する地点。道路側には、清掃車を通った後の微かなタイヤの跡。","why":"公的なメンテナンスの痕跡を確認し、町の秩序の範囲を知る。"},{"clock":"1:25","act":"立ち止まる","text":"湖岸道路のガードレールに、誰かが貼ったと思われるチラシ。剥がれかけており、下地が白く露出している。内容は地域のイベントの告知。","why":"情報の残骸から、この町で起きている時間の流れを推測する。"},{"clock":"1:40","act":"向きを決める","text":"ガードレールに沿って、さらに湖の奥へ。遠くに、貸しボート屋の屋根が見える。","why":"水辺の施設へ近づくにつれ、空気の湿度や風の方向が変わるのではないか。"},{"clock":"1:55","act":"調べる","text":"貸しボート屋の桟橋。水面に揺れる木のボートが、ロープで固定されている。ロープの結び目が、慣れた手つきで結ばれている。","why":"人間の技術と物の関係性、そして安心感を確認したい。"},{"clock":"2:10","act":"休む","text":"桟橋の端のベンチに腰を下ろす。足元は水気を含んだ木板。向かい側の売店の窓が開き、軽音楽が漏れてくる。","why":"移動の速度を落とし、周囲の音や空気の変動を体全体で受け取ってから次の判断をする。"},{"clock":"2:30","act":"帰りを決める","text":"売店の前に、開いた傘が立てかけられている。柄が錆びている。この町には雨が多いのだ。帰路は、雨を避ける屋根のある道を歩く。","why":"天気と物の状態から、帰り道の安全性と快適性を確保するため。"},{"clock":"3:00","act":"帰着","text":"郵便局の自動販売機の前へ戻る。先ほどまでの枯葉は、風で少し動いていた。同じ場所、違う時間。","why":"出発点での変化を確認し、散歩のループを閉じる。"}],"returned":true,"last":"湿気は、どこにも捨てがたかった。"},{"id":"02-12","title":"昼の物流路と青い水","way":"用事を片付け、慣れた足跡に従って流されるように歩く","start":"大学の門、自転車の鍵をかける音が重なっている平日の昼","minutes":120,"steps":[{"clock":"0:00","act":"寄る","text":"大学の門を出て、すぐ隣の弁当屋のカウンターで味噌汁を頼む。湯気と揚げ物の油の匂いが混じっている。","why":"午後の歩く前に、胃を少しだけ温めておくため。"},{"clock":"0:08","act":"向きを決める","text":"食べ終わって袋を受け取り、大学の裏手にある用水路側の歩道へ向かう。アスファルトは日陰でまだ冷たい。","why":"日陰が続く方が、直射日光を避けて長く歩けると思ったから。"},{"clock":"0:15","act":"見回す","text":"用水沿いの遊歩道を歩く。右側には手入れされた芝生、左側には防塵のために植えた高木の林帯。遠くで除草機の音がする。","why":"騒音の正体を確認するため。"},{"clock":"0:22","act":"調べる","text":"遊歩道の途中に設置されたベンチで立ち止まり、足元にある排水溝の蓋に刻まれた製造年を確認する。最近のものである。","why":"この町が最近整備された場所と古い場所の境界を探ってみたかったから。"},{"clock":"0:30","act":"寄る","text":"遊歩道から一本入った物流倉庫の敷地脇を歩く。コンテナの隙間から差し込む光が、埃を含む空気を照らしている。","why":"風通しの良い場所を探していたから。"},{"clock":"0:45","act":"見回す","text":"倉庫の裏手から、大量の段ボールが回収される瞬間を見る。作業員が手渡すスピードに合わせて、トラックの荷台へ積まれていく。","why":"町の血流がどう流れているかを確認したかったから。"},{"clock":"1:00","act":"向きを決める","text":"倉庫の裏手を抜け、工業団地内を縦断するメイン通りへ出る。トラックの排気音が鼓膜を叩く。","why":"工業団地の中心部を通って、町の反対側に行きたくなったから。"},{"clock":"1:15","act":"調べる","text":"道路脇のガードレールに貼られた広告用紙を指先でめくる。剥がれかけた紙の裏には、前の広告の文字が透けて見えた。","why":"この町の過去の名前や商売の跡を辿りたかったから。"},{"clock":"1:30","act":"休む","text":"工場内の休憩所と見られる自動販売機の前で立ち止まり、缶コーヒーを買う。机の上にはまだ誰かが飲み残した紙コップがある。","why":"足が疲れたので、少しだけ体を止めようと思ったから。"},{"clock":"1:45","act":"見回す","text":"休憩から離れ、工場のフェンス越しに作業風景を見る。塗装作業中らしき機械の音と、蒸し暑い空気に漂う溶剤の匂い。","why":"町の現在進行形な匂いを吸い込みたかったから。"},{"clock":"2:00","act":"向きを決める","text":"工業団地を抜け、住宅街の一角に入る。道幅が狭くなり、自転車の通行音が頻繁に聞こえるようになる。","why":"生活感のある音を求めて、静かな場所を離れてみたかったから。"},{"clock":"2:20","act":"調べる","text":"古い団地の管理組合の掲示板を確認する。来月の集会所使用状況表が、白い紙に印刷されて貼り出されている。","why":"地域の人々の予定表を見るのは、その町の時間の流れを知る方法だから。"},{"clock":"2:45","act":"帰りを決める","text":"団地の裏手を回り、最初の用水路に戻ってくる。夕暮れはまだ先だが、影が長くなり始めている。","why":"光が暗くなる前に、出発点へ戻りたいと思ったから。"},{"clock":"3:10","act":"帰着","text":"大学の門に帰り着く。弁当屋はまだ開いているが、私は立ち寄らずに、そのまま自転車を漕ぐ方向へ足を向ける。","why":"用事は済んだので、ここを去るため。"}],"returned":true,"last":"湯気の残る味噌汁の味を思い出しつつ、自転車の鍵を回す"}]};
@@ -321,22 +266,22 @@ const list = document.getElementById('list');
 
 function count() {
   const n = DATA.stories.filter(s => state[s.id] && state[s.id].rate).length;
-  document.getElementById('count').textContent = n + ' / ' + DATA.stories.length + ' 判定ずみ';
-  document.getElementById('status').textContent = n === DATA.stories.length ? '全部つけました。コピーして貼ってください。' : 'あと ' + (DATA.stories.length - n) + ' 本';
+    document.getElementById('status').textContent = n === DATA.stories.length ? '全部つけました。コピーして貼ってください' : n + ' / ' + DATA.stories.length + ' 本を判定';
 }
 
-if (!DATA) { list.append(el('p', { class: 'sub', text: '物語がまだありません。' })); }
+if (!DATA) { list.append(el('p', { class: 'sub', text: '物語がまだありません' })); }
 else {
-  document.getElementById('round').textContent = '第 ' + DATA.round + ' 回 · ' + DATA.stories.length + ' 本';
+  document.getElementById('round').textContent = '第 ' + Number(DATA.round) + ' 回 · ' + DATA.stories.length + ' 本';
   DATA.stories.forEach((s, i) => {
     const st = state[s.id] = state[s.id] || { rate: '', likes: [], memo: '' };
     st.flows = st.flows || []; st.whole = st.whole || '';
-    const steps = el('ol', { class: 'steps bleed' });
+    const steps = el('ol', { class: 'rail bleed' });
     s.steps.forEach((p, j) => {
-      const li = el('li', { tabindex: '0', role: 'button', 'aria-pressed': String(st.likes.includes(j)) },
-        el('span', { class: 'sub small num', text: p.clock || '' }),
-        el('span', { class: 'txt' },
-          el('span', {}, el('span', { class: 'badge', text: p.act || '' }), el('span', { class: 'badge y mark', text: 'ここ好き' })),
+      const li = el('li', { class: 'step' + (j === s.steps.length - 1 ? ' end' : ''), tabindex: '0', role: 'button', 'aria-pressed': String(st.likes.includes(j)) },
+        el('span', { class: 't', text: p.clock || '' }),
+        el('span', { class: 'stop' }, el('i')),
+        el('span', { class: 'body' },
+          el('span', { class: 'act' }, p.act || '', el('span', { class: 'mark', text: ' · ここ好き' })),
           el('p', { text: p.text || '' }),
           el('p', { class: 'why', text: p.why || '' })));
       const flip = () => { const k = st.likes.indexOf(j); k < 0 ? st.likes.push(j) : st.likes.splice(k, 1); li.setAttribute('aria-pressed', String(k < 0)); save(); };
@@ -346,7 +291,9 @@ else {
       if (j < s.steps.length - 1) {
         const on = () => st.flows.includes(j);
         const fb = el('button', { class: 'flowbtn', 'aria-pressed': String(on()), 'aria-label': 'ここからの流れが好き' });
-        const paint = () => { fb.setAttribute('aria-pressed', String(on())); fb.textContent = on() ? '↓ この流れが好き' : '↓'; };
+        const lab = el('span');
+        fb.append(el('span'), el('span', { class: 'stop' }), lab);
+        const paint = () => { fb.setAttribute('aria-pressed', String(on())); lab.textContent = on() ? 'この流れが好き' : ''; };
         fb.addEventListener('click', () => { const k = st.flows.indexOf(j); k < 0 ? st.flows.push(j) : st.flows.splice(k, 1); paint(); save(); });
         paint();
         steps.append(el('li', { class: 'flow' }, fb));
@@ -368,14 +315,16 @@ else {
     memo.value = st.memo;
     memo.addEventListener('input', () => { st.memo = memo.value; save(); });
     list.append(el('section', { class: 'card story', id: s.id },
-      el('div', { class: 'cardhead' }, el('h2', { text: s.title }), el('span', { class: 'sub small num', text: (i + 1) + ' / ' + DATA.stories.length })),
-      el('div', { class: 'row' }, el('span', { class: 'badge num', text: dur(s.minutes) }), el('span', { class: 'badge ' + (s.returned ? 'g' : 'r'), text: s.returned ? '帰りついた' : '帰りつけなかった' })),
-      el('p', { class: 'sub', text: s.start }),
+      el('div', { class: 'top' },
+        el('span', { class: 'quiet num', text: (i + 1) + ' / ' + DATA.stories.length + ' · ' + dur(s.minutes) + ' · ' + (s.returned ? '帰りついた' : '帰りつけなかった') }),
+        el('h2', { text: s.title })),
+      el('p', { class: 'sub start', text: s.start }),
       steps,
-      el('p', { text: s.last || '' }),
-      el('div', { class: 'judge' }, el('span', { class: 'label', text: 'この散歩は' }), seg),
-      el('div', { class: 'judge' }, el('span', { class: 'label', text: 'どこが効いた' }), seg2),
-      memo));
+      el('p', { class: 'last', text: s.last || '' }),
+      el('div', { class: 'judge' },
+        el('div', {}, el('span', { class: 'sub', text: 'この散歩は' }), seg),
+        el('div', {}, el('span', { class: 'sub', text: 'どこが効いた' }), seg2),
+        memo)));
   });
   count();
 }
@@ -396,7 +345,7 @@ document.getElementById('copy').addEventListener('click', async () => {
   out.value = text; out.style.display = 'block';
   let ok = false;
   try { await navigator.clipboard.writeText(text); ok = true; } catch (e) { out.focus(); out.select(); }
-  document.getElementById('status').textContent = ok ? 'コピーしました。チャットに貼ってください。' : 'コピーできませんでした。下の枠の文字を選んでコピーしてください。';
+  document.getElementById('status').textContent = ok ? 'コピーしました。チャットに貼ってください' : 'コピーできませんでした。上の枠の文字を選んでコピーしてください';
   if (!ok) out.scrollIntoView();
 });
 </script>
