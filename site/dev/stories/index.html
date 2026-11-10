@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="ja" data-theme="matcha">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>みちくさ 物語の判定</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Montserrat:wght@500;600;700&family=Playwrite+US+Trad&display=swap">
+<style>
+/* みちくさ：見た目の決まり（参考 Meta の Astryx / D-026）。
+   変数の名前と値は Astryx のものに合わせてある。主題（テーマ）は変数の上書きだけで替わる。
+   値の出どころ：@astryxdesign/theme-neutral / theme-stone / theme-matcha の theme.css（MIT）。 */
+:root{
+  color-scheme:light dark;
+  --jp:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic","Noto Sans JP";
+  --jp-serif:"Hiragino Mincho ProN","Yu Mincho","Noto Serif JP";
+  /* neutral */
+  --font-family-body:Figtree,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,var(--jp),sans-serif;
+  --font-family-heading:var(--font-family-body);
+  --font-family-code:ui-monospace,"SF Mono",Monaco,Consolas,var(--jp),monospace;
+  --font-size-sm:.75rem; --font-size-base:.875rem; --font-size-lg:1.0625rem; --font-size-xl:1.25rem; --font-size-2xl:1.5rem; --font-size-3xl:1.8125rem;
+  --leading-body:1.4286; --leading-supporting:1.6667;
+  --color-background-body:light-dark(#f1f1f1,#1b1b1b);
+  --color-background-surface:light-dark(#ffffff,#262626);
+  --color-background-card:light-dark(#ffffff,#262626);
+  --color-background-muted:light-dark(#f1f1f1,#1b1b1b);
+  --color-accent:light-dark(#1b1b1b,#f1f1f1);
+  --color-on-accent:light-dark(#ffffff,#111111);
+  --color-neutral:light-dark(#0000000f,#ffffff1a);
+  --color-overlay-hover:light-dark(#0000000d,#ffffff0d);
+  --color-overlay-pressed:light-dark(#0000001a,#ffffff1a);
+  --color-text-primary:light-dark(#000000,#ffffff);
+  --color-text-secondary:light-dark(#474747,#9e9e9e);
+  --color-text-disabled:light-dark(#919191,#525252);
+  --color-border:light-dark(#00000014,#ffffff1a);
+  --color-border-emphasized:light-dark(#d4d4d4,#525252);
+  --color-track:light-dark(#d4d4d4,#525252);
+  --color-success:light-dark(#198100,#64af4c);
+  --color-warning:#ffce2f;
+  --color-error:light-dark(#c9303a,#ff705d);
+  --color-background-yellow:light-dark(#fae19e,#453a1c); --color-text-yellow:light-dark(#4b3900,#eec448); --color-icon-yellow:light-dark(#e2b623,#e2b623);
+  --color-background-blue:light-dark(#b9d7ff,#253c5a); --color-text-blue:light-dark(#003978,#a1caff); --color-icon-blue:light-dark(#2f6fd0,#88bcff);
+  --color-background-red:light-dark(#ffc4be,#5b2b28); --color-text-red:light-dark(#76000c,#ffaea7); --color-icon-red:light-dark(#c9303a,#ff9890);
+  --color-background-green:light-dark(#bce0bb,#2b422b); --color-text-green:light-dark(#00490b,#90ca90);
+  --radius-inner:.375rem; --radius-element:.625rem; --radius-container:.75rem; --radius-page:1.75rem; --radius-full:9999px;
+  --size-element-sm:28px; --size-element-md:32px; --size-element-lg:36px;
+  --shadow-low:0 2px 4px light-dark(#0000000d,#00000040),0 4px 8px light-dark(#0000001a,#00000066);
+  --spacing-0-5:.125rem; --spacing-1:.25rem; --spacing-1-5:.375rem; --spacing-2:.5rem; --spacing-3:.75rem; --spacing-4:1rem; --spacing-5:1.25rem; --spacing-6:1.5rem; --spacing-8:2rem; --spacing-10:2.5rem; --spacing-12:3rem;
+  --duration-fast:125ms; --duration-medium:300ms;
+  --ease-standard:cubic-bezier(.24,1,.4,1);
+  --weight-heading-3:700;
+}
+[data-theme=stone]{
+  --font-family-heading:Montserrat,Figtree,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,var(--jp),sans-serif;
+  --font-family-code:"JetBrains Mono","SF Mono",Monaco,Consolas,var(--jp),monospace;
+  --font-size-sm:.75rem; --font-size-lg:1.125rem; --font-size-xl:1.375rem; --font-size-2xl:1.6875rem; --font-size-3xl:2.125rem;
+  --color-background-body:light-dark(#f0f0f7,#101018);
+  --color-background-surface:light-dark(#ffffff,#1b1b21);
+  --color-background-card:light-dark(#ffffff,#25252a);
+  --color-background-muted:light-dark(#e2e2e8,#3a3a42);
+  --color-accent:light-dark(#25252a,#f0f0f9);
+  --color-on-accent:light-dark(#ffffff,#25252a);
+  --color-neutral:light-dark(#25252a0f,#f0f0f91a);
+  --color-overlay-hover:light-dark(#25252a0d,#f0f0f90d);
+  --color-overlay-pressed:light-dark(#25252a1a,#f0f0f91a);
+  --color-text-primary:light-dark(#25252a,#f0f0f9);
+  --color-text-secondary:light-dark(#5f5f64,#ababb3);
+  --color-text-disabled:light-dark(#d4d3dd,#5e5e64);
+  --color-border:light-dark(#e2e2e8,#f0f0f91a);
+  --color-border-emphasized:light-dark(#848489,#5e5e64);
+  --color-track:light-dark(#d4d3dd,#5e5e64);
+  --color-success:light-dark(#354f31,#b3d0af);
+  --color-warning:light-dark(#524818,#d9c794);
+  --color-error:light-dark(#603c37,#e0bdb8);
+  --color-background-yellow:light-dark(#f4e1b7,#615620); --color-text-yellow:light-dark(#524818,#f1e1b9); --color-icon-yellow:light-dark(#d9bd6a,#d9c794);
+  --color-background-blue:light-dark(#d3e4fc,#445469); --color-text-blue:light-dark(#344861,#d5e4f8); --color-icon-blue:light-dark(#6f8fb8,#a9c3e6);
+  --color-background-red:light-dark(#fbdad4,#684a45); --color-text-red:light-dark(#603c37,#f7dbd7); --color-icon-red:light-dark(#b0685e,#e0bdb8);
+  --color-background-green:light-dark(#d2eccf,#3e5d38); --color-text-green:light-dark(#354f31,#d5e9d2);
+  --radius-inner:.25rem; --radius-element:.5rem; --radius-container:.75rem; --radius-page:1.5rem;
+  --shadow-low:0 2px 4px #25252a0d,0 4px 8px #25252a1a;
+}
+[data-theme=matcha]{
+  --font-family-body:"DM Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,var(--jp),sans-serif;
+  --font-family-heading:"Playwrite US Trad",Georgia,var(--jp-serif),serif;
+  --font-family-code:"JetBrains Mono","SF Mono",Monaco,Consolas,var(--jp),monospace;
+  --font-size-sm:.8125rem; --font-size-base:1rem; --font-size-lg:1.25rem; --font-size-xl:1.5625rem; --font-size-2xl:1.9375rem; --font-size-3xl:2.4375rem;
+  --leading-body:1.5; --leading-supporting:1.5385;
+  --color-background-body:light-dark(#f0f0e0,#12140e);
+  --color-background-surface:light-dark(#ffffff,#1a1c14);
+  --color-background-card:light-dark(#ffffff,#1e2016);
+  --color-background-muted:light-dark(#f0f0e0,#3e481d);
+  --color-accent:light-dark(#3e481d,#c0cba9);
+  --color-on-accent:light-dark(#ffffff,#3e481d);
+  --color-neutral:light-dark(#3e481d0f,#c0cba91a);
+  --color-overlay-hover:light-dark(#3e481d0d,#c0cba90d);
+  --color-overlay-pressed:light-dark(#3e481d1a,#c0cba91a);
+  --color-text-primary:light-dark(#3e481d,#c0cba9);
+  --color-text-secondary:light-dark(#707e46,#94a468);
+  --color-text-disabled:light-dark(#c0cba9,#5a6440);
+  --color-border:light-dark(#dce3ce,#c0cba91a);
+  --color-border-emphasized:light-dark(#b7c29e,#5a6440);
+  --color-track:light-dark(#dce3ce,#5a6440);
+  --color-success:light-dark(#4d9900,#6dbf2a);
+  --color-warning:light-dark(#f2c000,#f6d066);
+  --color-error:light-dark(#fd0000,#ff5c5c);
+  --color-background-yellow:light-dark(#f2c00033,#f6d06633); --color-text-yellow:light-dark(#8a6c00,#ffe08b); --color-icon-yellow:light-dark(#f2c000,#f6d066);
+  --color-background-blue:#3a5e8c33; --color-text-blue:light-dark(#2e4a6e,#8dbce0); --color-icon-blue:light-dark(#3a5e8c,#7ba8d4);
+  --color-background-red:light-dark(#fd000026,#ff5c5c33); --color-text-red:light-dark(#cc0000,#ff7a7a); --color-icon-red:light-dark(#fd0000,#ff5c5c);
+  --color-background-green:light-dark(#4d990033,#6dbf2a33); --color-text-green:light-dark(#3d7a00,#80d43a);
+  --radius-inner:6px; --radius-element:12px; --radius-container:18px; --radius-page:42px;
+  --size-element-sm:36px; --size-element-md:40px; --size-element-lg:44px;
+  --spacing-4:1.5rem;
+  --shadow-low:0 2px 4px #3e481d0d,0 4px 8px #3e481d1a;
+  --weight-heading-3:600;
+}
+[data-mode=light]{color-scheme:light} [data-mode=dark]{color-scheme:dark}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--color-background-body);color:var(--color-text-primary);font:400 var(--font-size-base)/var(--leading-body) var(--font-family-body);-webkit-font-smoothing:antialiased}
+button,input,textarea{font:inherit;color:inherit}
+a{color:inherit;text-underline-offset:3px}
+:focus-visible{outline:2px solid var(--color-accent);outline-offset:3px}
+h1,h2,h3,p,ul,ol,dl,dd{margin:0}
+ul,ol{padding:0;list-style:none}
+.num{font-variant-numeric:tabular-nums}
+.sub{color:var(--color-text-secondary)}
+.small{font-size:var(--font-size-sm);line-height:var(--leading-supporting)}
+code,pre{font-family:var(--font-family-code)}
+[hidden]{display:none!important}
+
+/* 型：役割で使い分ける */
+h1{font:600 var(--font-size-2xl)/1.35 var(--font-family-heading)}
+h2{font:600 var(--font-size-base)/var(--leading-body) var(--font-family-body)}
+.h3{font:var(--weight-heading-3) var(--font-size-lg)/1.4 var(--font-family-body)}
+.label{font-weight:500}
+
+/* 上の帯（TopNav） */
+.topnav{position:sticky;top:0;z-index:5;background:var(--color-background-surface);border-bottom:1px solid var(--color-border)}
+.topnav>div{max-width:1200px;margin:0 auto;padding:var(--spacing-2) var(--spacing-5);display:flex;align-items:center;gap:var(--spacing-4);flex-wrap:wrap}
+.brand{font:600 var(--font-size-lg)/1 var(--font-family-heading);display:flex;align-items:center;gap:var(--spacing-2);margin-right:auto;white-space:nowrap}
+.brand i{width:10px;height:10px;border-radius:var(--radius-full);background:var(--color-accent);display:inline-block}
+.navitems{display:flex;gap:var(--spacing-1)}
+.navitem{height:var(--size-element-md);padding:0 var(--spacing-3);border:0;border-radius:var(--radius-element);background:none;cursor:pointer;font-weight:500;color:var(--color-text-secondary);display:inline-flex;align-items:center;text-decoration:none;transition:background-color var(--duration-fast) var(--ease-standard)}
+.navitem[aria-current=page]{background:var(--color-neutral);color:var(--color-text-primary)}
+
+/* ページ */
+.page{max-width:1200px;margin:0 auto;padding:var(--spacing-8) var(--spacing-5) var(--spacing-12);display:grid;gap:var(--spacing-6)}
+.pagehead{display:flex;align-items:flex-end;justify-content:space-between;gap:var(--spacing-3) var(--spacing-4);flex-wrap:wrap}
+.pagehead>div:first-child{display:grid;gap:var(--spacing-1)}
+.row{display:flex;align-items:center;gap:var(--spacing-2);flex-wrap:wrap}
+
+/* カード */
+.card{background:var(--color-background-card);border:1px solid var(--color-border);border-radius:var(--radius-container);padding:var(--spacing-4);min-width:0;display:grid;gap:var(--spacing-3);align-content:start}
+.cardhead{display:flex;align-items:center;justify-content:space-between;gap:var(--spacing-2);flex-wrap:wrap}
+.bleed{margin-inline:calc(-1*var(--spacing-4))}
+.card>.bleed:last-child{margin-bottom:calc(-1*var(--spacing-4))}
+
+/* バッジと点 */
+.badge{display:inline-flex;align-items:center;gap:var(--spacing-1);height:1.25rem;padding:0 var(--spacing-2);border-radius:var(--radius-full);background:var(--color-neutral);font-size:var(--font-size-sm);font-weight:500;white-space:nowrap;line-height:1}
+.badge.y{background:var(--color-background-yellow);color:var(--color-text-yellow)}
+.badge.b{background:var(--color-background-blue);color:var(--color-text-blue)}
+.badge.r{background:var(--color-background-red);color:var(--color-text-red)}
+.badge.g{background:var(--color-background-green);color:var(--color-text-green)}
+.dot{width:8px;height:8px;border-radius:var(--radius-full);background:var(--color-text-disabled);display:inline-block;flex:none}
+.dot.ok{background:var(--color-success)} .dot.warn{background:var(--color-warning)} .dot.err{background:var(--color-error)} .dot.on{background:var(--color-accent)}
+.dot.y{background:var(--color-icon-yellow)} .dot.b{background:var(--color-icon-blue)} .dot.r{background:var(--color-icon-red)}
+.dot.o{background:var(--color-background-card);box-shadow:inset 0 0 0 1.5px var(--color-text-secondary)}
+
+/* ボタン：主役は1つだけ塗る */
+.btn{height:var(--size-element-md);padding:0 var(--spacing-3);border:0;border-radius:var(--radius-element);background:var(--color-neutral);font-weight:500;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:var(--spacing-2);white-space:nowrap;position:relative;transition:background-color var(--duration-fast) var(--ease-standard),transform var(--duration-fast) var(--ease-standard)}
+.btn.primary{background:var(--color-accent);color:var(--color-on-accent)}
+.btn.ghost{background:none}
+.btn:disabled{color:var(--color-text-disabled);cursor:default}
+.btn:active:not(:disabled){transform:scale(.98)}
+@media (hover:hover){
+  .btn:not(.primary):not(:disabled):hover,.navitem:not([aria-current=page]):hover{background:var(--color-overlay-pressed)}
+  .btn.ghost:not(:disabled):hover{background:var(--color-overlay-hover)}
+  .btn.primary:hover{background-image:linear-gradient(var(--color-overlay-pressed),var(--color-overlay-pressed))}
+}
+@media (pointer:coarse){.btn:before{content:"";position:absolute;inset:-6px 0}}
+
+/* 切り替え（SegmentedControl） */
+.seg{display:inline-flex;gap:var(--spacing-0-5);padding:var(--spacing-0-5);background:var(--color-neutral);border-radius:calc(var(--radius-element) + var(--spacing-0-5));max-width:100%;overflow-x:auto}
+.seg button{height:calc(var(--size-element-md) - 4px);padding:0 var(--spacing-3);border:0;border-radius:var(--radius-element);background:none;cursor:pointer;font-weight:500;color:var(--color-text-secondary);display:inline-flex;align-items:center;gap:var(--spacing-1-5);white-space:nowrap;transition:background-color var(--duration-fast) var(--ease-standard)}
+.seg [aria-selected=true],.seg [aria-pressed=true]{background:var(--color-background-surface);color:var(--color-text-primary);box-shadow:0 1px 2px light-dark(#0000001f,#00000066)}
+.seg.sm button{height:calc(var(--size-element-sm) - 4px);padding:0 var(--spacing-2);font-size:var(--font-size-sm)}
+
+/* 数字の札 */
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--spacing-3)}
+.stat{gap:var(--spacing-1)}
+.stat dt{color:var(--color-text-secondary);font-size:var(--font-size-sm)}
+.stat dd{font:600 var(--font-size-xl)/1.3 var(--font-family-body)}
+.stat dd small{font:400 var(--font-size-sm)/1 var(--font-family-body);color:var(--color-text-secondary)}
+.track{height:8px;border-radius:var(--radius-full);background:var(--color-background-muted);overflow:hidden;margin-top:var(--spacing-1)}
+.track i{display:block;height:100%;border-radius:var(--radius-full);background:var(--color-accent)}
+
+/* 並び（List / Item） */
+.items>li{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:var(--spacing-3);align-items:center;padding:var(--spacing-2) var(--spacing-4);border-top:1px solid var(--color-border)}
+.items>li>.dot{justify-self:center}
+.items .end{color:var(--color-text-secondary);font-size:var(--font-size-sm);text-align:right}
+
+/* 対の並び（MetadataList） */
+.meta{display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--spacing-2) var(--spacing-5)}
+.meta dt{color:var(--color-text-secondary)}
+
+/* 表 */
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%}
+th,td{text-align:left;padding:var(--spacing-2) var(--spacing-3);border-top:1px solid var(--color-border);white-space:nowrap}
+th{font-weight:500;font-size:var(--font-size-sm);color:var(--color-text-secondary);border-top:0}
+th:first-child,td:first-child{padding-left:var(--spacing-4)} th:last-child,td:last-child{padding-right:var(--spacing-4)}
+td.r,th.r{text-align:right}
+td.wrap{white-space:normal}
+
+.foot{max-width:1200px;margin:0 auto;padding:0 var(--spacing-5) var(--spacing-10);color:var(--color-text-secondary);font-size:var(--font-size-sm)}
+@media (max-width:860px){
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .page{padding-top:var(--spacing-5);gap:var(--spacing-4)}
+  .topnav>div{padding-inline:var(--spacing-4)} .page,.foot{padding-inline:var(--spacing-4)}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+<script>
+// 見本だけの仕掛け：主題（Astryx のテーマ）を切り替えて見比べる。選んだものはこの端末に覚えておく。
+(() => {
+  const root = document.documentElement, KEY = 'mk-theme';
+  let saved = null; try { saved = localStorage.getItem(KEY); } catch {}
+  const set = t => {
+    root.dataset.theme = t; try { localStorage.setItem(KEY, t); } catch {}
+    document.querySelectorAll('[data-set-theme]').forEach(b => b.setAttribute('aria-pressed', b.dataset.setTheme === t));
+    document.dispatchEvent(new Event('themechange'));
+  };
+  root.dataset.theme = saved || root.dataset.theme || 'matcha';
+  addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('[data-set-theme]').forEach(b => b.addEventListener('click', () => set(b.dataset.setTheme)));
+    set(root.dataset.theme);
+  });
+})();
+</script>
+<style>
+.page{max-width:46rem}
+.story{display:grid;gap:var(--spacing-4)}
+.story h2{font-size:var(--font-size-xl,1.5rem)}
+.steps{list-style:none;margin:0;padding:0}
+.steps li{display:grid;grid-template-columns:2.75rem minmax(0,1fr);gap:var(--spacing-3);padding:var(--spacing-3) var(--spacing-4);border-top:1px solid var(--color-border);cursor:pointer;transition:background var(--duration-fast) var(--ease-standard)}
+.steps li:hover{background:var(--color-background-muted)}
+.steps li[aria-pressed=true]{background:var(--color-background-muted)}
+.steps li:focus-visible{outline:2px solid var(--color-accent);outline-offset:-2px}
+.steps p{margin:0}
+.steps .why{color:var(--color-text-secondary);font-size:var(--font-size-sm)}
+.steps .txt{display:grid;gap:var(--spacing-1)}
+.steps .mark{display:none;margin-left:var(--spacing-2)}
+.steps li[aria-pressed=true] .mark{display:inline-flex}
+textarea{width:100%;min-height:4.5rem;box-sizing:border-box;padding:var(--spacing-2) var(--spacing-3);border:1px solid var(--color-border);border-radius:var(--radius-element);background:var(--color-background);color:inherit;font:inherit;resize:vertical}
+textarea:focus-visible{outline:2px solid var(--color-accent);outline-offset:3px}
+.judge{display:flex;flex-wrap:wrap;gap:var(--spacing-3);align-items:center;justify-content:space-between}
+.stickbar{position:sticky;bottom:0;background:var(--color-background-card,var(--color-background));border-top:1px solid var(--color-border);padding:var(--spacing-3) var(--spacing-4);display:flex;gap:var(--spacing-3);align-items:center;justify-content:space-between;flex-wrap:wrap}
+#out{display:none;margin-top:var(--spacing-3)}
+</style>
+</head>
+<body>
+<header class="topnav"><div>
+  <span class="brand"><i></i>みちくさ <span class="badge">開発</span></span>
+  <nav class="navitems" aria-label="おもな行き先">
+    <a class="navitem" href="../">様子</a>
+    <a class="navitem" href="./" aria-current="page">物語の判定</a>
+    <a class="navitem" href="../../">公開側の見本</a>
+  </nav>
+  <div class="seg sm" role="group" aria-label="見本の主題">
+    <button data-set-theme="matcha">Matcha</button><button data-set-theme="stone">Stone</button><button data-set-theme="neutral">Neutral</button>
+  </div>
+</div></header>
+
+<main class="page">
+  <div class="pagehead">
+    <div><h1>物語の判定</h1><p class="sub">景色なしの散歩の物語です。読んで、好みを教えてください。</p></div>
+    <div class="row"><span class="badge num" id="round"></span><span class="badge g num" id="count"></span></div>
+  </div>
+
+  <section class="card">
+    <div class="cardhead"><h2>やり方</h2></div>
+    <ul class="items bleed">
+      <li><span class="dot on"></span><span>物語ごとに「すき・ふつう・ちがう」を選ぶ</span><span class="end"></span></li>
+      <li><span class="dot on"></span><span>気に入った場面は、押すと印がつく</span><span class="end"></span></li>
+      <li><span class="dot on"></span><span>一言あれば書く。知らなかったけど面白い、もここへ</span><span class="end"></span></li>
+      <li><span class="dot on"></span><span>最後に「結果をコピー」して、チャットに貼る</span><span class="end"></span></li>
+    </ul>
+    <p class="sub small">答えはこの端末のブラウザにだけ残ります。どこにも送りません。</p>
+  </section>
+
+  <div id="list" style="display:grid;gap:var(--spacing-5,1.25rem)"></div>
+  <textarea id="out" readonly aria-label="結果"></textarea>
+</main>
+
+<div class="stickbar">
+  <span class="sub small" id="status"></span>
+  <button class="btn primary" id="copy">結果をコピー</button>
+</div>
+
+<script>
+const DATA = {"round":"01","stories":[{"id":"01-01","title":"鉄の匂いと遠い海","way":"視野の端に見えた煙突へ一直線。足元の雑草や横道には目もくれず、その一点に心を固定したまま進んだ。","start":"港の貨物ターミナル跡地。潮風が乾いていて、コンクリートの隙間から草が生えている。","minutes":240,"steps":[{"clock":"0:00","act":"向きを決める","text":"視界の先に、微かに立ち上る黒い煙と、細長い煙突の影が見えた。その方角へ体を向ける。","why":"あの煙突が何の建物的か確かめたいという好奇心。"},{"clock":"0:15","act":"寄る","text":"手前にあった旧倉庫の塀の角を回る。錆びた鉄板の隙間から、海側の風景が覗いた。","why":"煙突への直接の道が切れていたので、周囲を迂回する必要がある。"},{"clock":"0:30","act":"調べる","text":"倉庫裏手の排水溝を覗き込む。流れは緩く、底には折れた飲料用缶が沈んでいる。","why":"この先へ続く道が湿って滑っていないか確認するため。"},{"clock":"0:45","act":"見回す","text":"手前に広がる空き地には、枯れた麦の穂のような植物が残っている。風が通り抜ける音だけが聞こえる。","why":"足元の状態を確かめつつ、前方の煙突との距離感を測る。"},{"clock":"1:00","act":"向きを決める","text":"雑草の生い茂った斜めの小径を見つけて、そこへ足を向ける。","why":"最も煙突に近い見通しの良いルートだから。"},{"clock":"1:20","act":"休む","text":"石畳の端に腰を下ろす。靴底に付いた泥が乾いていく感覚を味わう。","why":"ペースを一定に保つため、そして周囲の静寂を聞くため。"},{"clock":"1:35","act":"行き止まり","text":"倒れた電柱が道を遮っている。越えるには無理がありそうなので、少し後退する。","why":"危険を避けて迂回する必要がある。"},{"clock":"1:50","act":"調べる","text":"電柱の横にあった看板を確認する。文字は消えかけだが、「旧工場跡」と読める。","why":"現在地の目印として、地図上の位置を推測するため。"},{"clock":"2:10","act":"向きを決める","text":"道のない草むらを横切り、緩やかな丘へ登る道を選ぶ。","why":"標高を上げて煙突の上部を把握したいため。"},{"clock":"2:30","act":"見回す","text":"丘の上から町を見下ろす。家々の屋根は暗く、どこにも光は灯っていない。","why":"自分の位置関係を確認し、帰路の目安をつけるため。"},{"clock":"2:50","act":"寄る","text":"目的の煙突がある施設の外壁に辿り着く。壁面には落書きがされている。","why":"最初に見えた煙突を実体として確認するため。"},{"clock":"3:10","act":"調べる","text":"煙突の足元にある金属製の柵に触れる。冷たさが手伝いに伝わる。","why":"素材の質感を感じて、この場所の歴史を肌で確認したい。"},{"clock":"3:40","act":"帰りを決める","text":"来た道よりも、少し下の方の別の道を選んで港へ戻る方向を定める。","why":"同じ道を往復するよりも、変化のある風景が見たい。"},{"clock":"4:00","act":"帰着","text":"貨物ターミナルのゲートに差し掛かる。入った時の位置と少しずれている。","why":"散歩を完了し、始まりの地点に戻るため。"}],"returned":true,"last":"煙突の影が、港の水面に長く伸びていた。"},{"id":"01-02","title":"灰と潮の匂い","way":"計画なし。足が向く方、目が引っかかる方へ。","start":"港の旅客ターミナルと、砂利の匂いがする静かな朝","minutes":120,"steps":[{"clock":"0:00","act":"向きを決める","text":"ターミナルを出て、右手の坂道と左手の防波堤を睨む。海側の空気が冷たい。","why":"塩気が鼻を突く方が、今の気分に近いと思ったから。"},{"clock":"0:15","act":"立ち止まる","text":"錆びた船着き場の柱に、剥げた看板の裏側だけが残っている。裏面は黒板のように濃く塗られていた。","why":"何と書いてあったか、あるいは何があったのかを知りたかった。"},{"clock":"0:35","act":"寄る","text":"防波堤沿いの道から、内陸側へ入る細い路地へ逸れる。アスファルトの継ぎ目に枯葉が溜まっている。","why":"一直線より、曲がった方が何かが隠れていそうだと感じた。"},{"clock":"0:50","act":"見る","text":"路地の奥に、シャッターを閉じた古書店の看板がぶら下がる。文字は滲んで読めないが、「文」の字だけ残っている。","why":"読めない文字ほど、頭の中で完成形を作れる。"},{"clock":"1:05","act":"進む","text":"道は急に勾配を下り、線路沿いになる。枕木の並ぶ脇を、風の音だけが通過していく。","why":"下り坂は足が軽くなり、次の判断が早い。"},{"clock":"1:20","act":"見回す","text":"線路の先は、見通しの利く草原。向こうに白い煙突の影が一つ、薄く見える。","why":"人工物の輪郭が、迷いをなくしてくれる。"},{"clock":"1:40","act":"向きを決める","text":"草原を横切り、煙突へ向かう。草の根が靴底に引っかかり、歩く速度が遅くなる。","why":"足が抵抗するなら、そこに何か根を張っている証拠だと考えた。"},{"clock":"2:05","act":"調べる","text":"煙突は廃止された工場のもの。足元には、コンクリートの基礎と、割れたタイルの破片が散らばっている。","why":"時間が積もった形は、歩く人の記憶と似ていた。"},{"clock":"2:30","act":"休む","text":"基礎の角に座り、空を見上げる。雲が等間隔に流れ、影が地面をゆっくり移動していく。","why":"動かないことで、自分の位置を固定したかった。"},{"clock":"2:50","act":"行く","text":"工場跡の裏手、石積みの壁沿いを歩いていく。壁の隙間から、苔の湿った匂いがする。","why":"匂いが強い方へは、足が勝手に向く。"},{"clock":"3:15","act":"立ち止まる","text":"壁の先、急な斜面が立ち上がり、向こう側は見えない。斜面の草が風に揺れ、音が一つにまとまっている。","why":"見えない先ほど、何かが待つという予感がする。"},{"clock":"3:40","act":"調べる","text":"斜面を登りきると、視界が開く。下の町が一枚の板のように平らに見え、港の方向へ白く光る。","why":"高所からだと、町の形が読み取れる。"},{"clock":"4:10","act":"進む","text":"斜面を降り、道が一本になる地点へ向かう。足元の土が、風で擦れている音がする。","why":"一本道は、迷いをなくしてくれる。"},{"clock":"4:45","act":"帰りを決める","text":"港の明かりが見える地点まで来た。戻るなら、今だ。","why":"景色が重なり始め、記憶の輪郭がぼやける。"},{"clock":"5:00","act":"帰着","text":"ターミナルの入口に立つ。ガラス戸に、自分の影が薄く映っている。","why":"歩き終えた印として、そこに立つ。"}],"returned":true,"last":"足は疲れているが、頭は静かだ。"},{"id":"01-03","title":"潮騒と石畳の記憶","way":"緩やかに進み、真ん中だけで計画を捨てた","start":"古い港のターミナル、錆びたコンテナと穏やかな朝の港","minutes":180,"steps":[{"clock":"0:00","act":"見回す","text":"ターミナルのベンチから目を離さず、左手の灯台方向と右手の市街地方向を往復して見た。","why":"どちらが今日向いているか、空気の匂いで確かめたかった。"},{"clock":"0:05","act":"向きを決める","text":"右手の石畳の道へ足を向け、靴底を鳴らしながら歩き始めた。","why":"潮の匂いが市街地側から微かに漂ってきていた。"},{"clock":"0:15","act":"立ち止まる","text":"路地の奥にある、看板も落ちた古びた倉庫の前で足を止めた。壁には乾いた藻の痕が走っている。","why":"この静けさが気になって、先に進むのが惜しくなった。"},{"clock":"0:20","act":"向きを決める","text":"倉庫を背にして、細い坂道の上へ進路を変えた。","why":"下った先が気にならなくなったので、上からの見通しを試したかった。"},{"clock":"0:35","act":"立ち止まる","text":"町の高台にある、草むらに覆われた石碑の前で息を切らして止まった。風で髪が乱れる。","why":"ここから町全体が見渡せるはずだと思い、足を止めた。"},{"clock":"0:40","act":"向きを決める","text":"碑の裏手に続く、落ち葉が積もった獣道のような小道へ足を踏み入れた。","why":"見通しが良くならなかったため、別の見方を試すために計画を捨て、裏手へ行った。"},{"clock":"0:55","act":"立ち止まる","text":"倒れた木々に阻まれ、進むのが困難になったため、その場に座り込んだ。足元には白い花が咲いている。","why":"無理に通るのはやめて、ここで景色を飲むことにした。"},{"clock":"1:00","act":"向きを決める","text":"倒木を迂回し、右斜め前へと道を見つけて歩き出した。","why":"花の香りが強くなり、その方角へ向くべきだと直感が言った。"},{"clock":"1:15","act":"立ち止まる","text":"古い防波堤の跡地らしき、岩がごろごろした空き地に出た。遠くから波の音だけが聞こえる。","why":"人の気配が完全に消えた静寂に、安心して足を止めた。"},{"clock":"1:25","act":"向きを決める","text":"岩場を越えて、海沿いの遊歩道へ降りる階段の入口を見つけた。","why":"海に戻る道がここにあると見当をつけて、降りることにした。"},{"clock":"1:45","act":"立ち止まる","text":"砂浜と並行する道を進み、古いモニュメントの前で足を止めた。表面は波風に削られている。","why":"時間より早く来たため、ここで少し休んで空を見上げた。"},{"clock":"1:55","act":"向きを決める","text":"モニュメントを左手に、元のターミナル方面へ戻り始めた。","why":"目的は果たしたと思われ、帰り道に迷わなかった。"},{"clock":"2:10","act":"立ち止まる","text":"ターミナルの前の広場で、ベンチを眺めながら立ち止まった。夕方の光が長くなっている。","why":"出発点に戻りつつある確認のため、一瞬だけ足を止めた。"},{"clock":"2:20","act":"帰着","text":"ターミナルの入り口に足を踏み入れ、出発したベンチの前で立ち止まった。","why":"散歩を終えるため、元来た道を閉じるため。"}],"returned":true,"last":"風が吹いて、靴の泥が乾き始めている。"},{"id":"01-04","title":"道南の午後、木々の間を","way":"一本の線路に沿って歩くが、気になった看板や地形の凹凸で少しだけ逸れては戻り、全体としては緩やかな円を描く。","start":"港のターミナル前。塩辛い空気の匂いが立ち上る、薄曇りの午後。","minutes":120,"steps":[{"clock":"0:00","act":"見回す","text":"埠頭のコンクリートが湿気で冷たく感じられる。目の前には穏やかな海が広がり、波打ち際で砕ける白泡の音だけが聞こえる。","why":"風向きを確認して、海側ではなく陸側へ進む決める。"},{"clock":"0:08","act":"向きを決める","text":"港から少し離れ、防波堤沿いの遊歩道に入る。左手には作業用の車両が停められた空き地、右手は防風林の樹木。","why":"木漏れ日がある方が足に優しく、また視線が遮られる安心感があるため。"},{"clock":"0:15","act":"寄る","text":"遊歩道の脇から分岐した、舗装されていない土の小道へ足を踏み入れる。先は緩やかな坂になっている。","why":"看板の矢印が山側を指しており、見通しの良い高所への期待があるため。"},{"clock":"0:23","act":"調べる","text":"土道の脇に倒れた丸太が転がっている。表面には苔が密集し、割れ目には小さな菌類が見える。","why":"この地域特有の湿潤な生態系を間近で確認するため。"},{"clock":"0:31","act":"見回す","text":"木立を抜けると、視界が開ける。眼下には町の屋根が連なり、その向こうに海が光っている。","why":"自分がどの位置にいるかを確認し、帰還ルートを頭の中で描くため。"},{"clock":"0:38","act":"向きを決める","text":"下り坂の途中、右手にある古い倉庫群の裏手を通る道を選ぶ。コンクリートの塀が長く延びている。","why":"日陰に入り、暑さを避けるため。また、建物の裏側には意外な通路があるかもしれないという興味。"},{"clock":"0:46","act":"休む","text":"倉庫の影に設置された、金属製のベンチに腰を下ろす。足元の石畳が硬い。","why":"呼吸を整え、次の歩き始める地点を見定めるため。"},{"clock":"0:54","act":"見回す","text":"ベンチの脇に、錆びついた消防用ホースが壁に巻き付けられている。周囲は静まり返り、風の音のみ。","why":"静けさを享受し、五感を研ぎ澄ませるため。"},{"clock":"1:02","act":"向きを決める","text":"倉庫の裏手から主道路に出る。アスファルトの路面は日差しでわずかに白く光っている。","why":"港へ戻るため、最も確実な直線ルートを選ぶ。"},{"clock":"1:15","act":"見回す","text":"道路沿いに並ぶ店舗のシャッターは閉じている。一部の窓ガラスに夕焼けの色が映り込んでいる。","why":"町が休息に入ったことを確認し、自分の存在の軽さを感じるため。"},{"clock":"1:25","act":"寄り道","text":"道の途中で、一本だけ背の高い樅の木が立っている。根元が道面から盛り上がり、歩道の一部を侵食している。","why":"その巨大な存在感に引き寄せられ、自然と都市の境界を確かめたかったため。"},{"clock":"1:35","act":"見回す","text":"樅の木を過ぎると、視界の先に港のターミナルが見えてくる。夕暮れにより、輪郭がぼやけている。","why":"目的地までの距離を感覚で測り、ペース配分を調整するため。"},{"clock":"1:48","act":"調べる","text":"埠頭に近づくにつれ、潮騒の音が大きくなる。足元の砂利が海水で湿っている。","why":"出発時の感覚と現在の感覚を比較し、時間の経過を体感するため。"},{"clock":"1:58","act":"帰りを決める","text":"ターミナルの入口に近づき、自動扉の前で足を止める。ガラス越しにロビーの明かりが眩しい。","why":"歩き終え、この散歩を閉じることへの準備のため。"},{"clock":"2:00","act":"帰着","text":"自動扉が開き、冷房の効いた空気が頬を撫でる。埠頭から見た景色を頭の中で反芻する。","why":"歩き終え、日常に戻るための儀式として。"}],"returned":true,"last":"潮の匂いだけで、一日が丸く収まったような気になった。"},{"id":"01-05","title":"錆色の軌跡","way":"錆びた赤色の塊を見つけると、その色合いを求め道を選んだ","start":"古い港湾ターミナルと、風化し始めた木造倉庫群","minutes":180,"steps":[{"clock":"0:00","act":"見回す","text":"埠頭のコンクリートに映る、錆びた船底の赤い影。","why":"その赤が気になって、海沿いの道を歩くことにした"},{"clock":"0:15","act":"向きを決める","text":"左に曲がる路地の角にある、赤く塗られた古い電話ボックス。","why":"似た色のものがあるかもしれないと直感した"},{"clock":"0:32","act":"寄る","text":"廃された鉄道沿線の、剥がれかけた赤い屋根の待合室。","why":"雨風で露出した下地の赤さが、先程の船底と似ていた"},{"clock":"0:50","act":"調べる","text":"待合室の裏側、朽ちた木製ベンチに落ちた赤い落ち葉。","why":"自然の赤と人工の赤の境界を探りたかった"},{"clock":"1:10","act":"向きを決める","text":"裏山へ続く、石畳の階段。その隙間から覗く赤土の斜面。","why":"土の赤が、この町に潜む別の赤への手がかりになるかと思った"},{"clock":"1:35","act":"休む","text":"階段の途中、風で揺れる赤い蔓植物に覆われた廃墟の角。","why":"息を切らしつつも、この赤の濃さを見逃したくなかった"},{"clock":"1:55","act":"行き止まり","text":"蔓の向こうに、完全に崩れ落ちた赤レンガ壁の残骸。","why":"もう先へは進めず、この破片の美しさに立ち尽くした"},{"clock":"2:10","act":"向きを決める","text":"残骸の奥、霧に煙る山頂方向の稜線。","why":"空の赤みがかった霞が、別の赤を誘っているような気がした"},{"clock":"2:35","act":"寄る","text":"稜線近く、風雪で白く朽ちた巨木の根元に埋まった赤い岩。","why":"石の赤は、植物や金属とは異なる静けさを持っている"},{"clock":"3:00","act":"見回す","text":"眼下に広がる町と、遠くに見える港の赤い信号塔。","why":"出発点の赤が、ここまで繋がっていることを確認した"},{"clock":"3:20","act":"帰りを決める","text":"山肌を伝う、赤茶けた土の道を下り始める。","why":"夕暮れまでの残り時間で、港へ戻ることにした"},{"clock":"3:45","act":"調べる","text":"下りの道脇、朽ちた看板の文字が赤く残っている。","why":"文字の赤が、人の記憶の残滓を思わせた"},{"clock":"4:05","act":"帰着","text":"埠頭に戻り、最初に見た船底の赤い錆をもう一度見る。","why":"同じ赤が、異なる場所、異なる形で存在していたことを受け入れた"}],"returned":true,"last":"赤は、散在しているのではなく、この町の脈動として繋がっていた"},{"id":"01-06","title":"潮騒の稜線","way":"地形の勾配と水流に従い、足元の抵抗感を頼りに方向転換する。","start":"港の埠頭を離れ、錆びたクレーンの影に覆われた朝。空気は湿っていて、塩気を含んでいる。","minutes":120,"steps":[{"clock":"0:00","act":"調べる","text":"埠頭のコンクリートに刻まれた水位の目安を確認する。朝の潮は引き始めていた。","why":"足元の傾斜から、内陸側へと向かう動勢を読み取り、最初の進路を選んだ。"},{"clock":"0:08","act":"見回す","text":"坂道の途中、手すりもない石畳の階段に出くわす。左右に古い住居の塀が連なる。","why":"足元の不平等さが気になり、その勾配がどこまで続くか見定めるため立ち止まった。"},{"clock":"0:15","act":"向きを決める","text":"坂の上から、細い水路が町を分断しているのを見る。右側は住宅街、左側は開けた空地。","why":"水の流れに沿う直感が働き、左側の低地へ降りていく道を選んだ。"},{"clock":"0:24","act":"寄る","text":"水路の橋を渡り、対岸の草むらの前で足を止める。湿った土の匂いが強い。","why":"草の揺れ方から、下流に何か障害物があるか否かを探った。"},{"clock":"0:33","act":"調べる","text":"水路の畔にある朽ちた杭を点検する。苔の生え具合から、ここが長年水没していないことがわかる。","why":"足元が安定しているか確認し、さらに内陸側へ足を踏み入れる許可を得ようとした。"},{"clock":"0:45","act":"見回す","text":"小さな谷間に入り、背後の高い崖から光が差し込む。視界は狭いが、奥行きがある。","why":"光の角度から、尾根を登れば見通しが良くなると予測し、上り始めた。"},{"clock":"0:58","act":"向きを決める","text":"石畳の小道が二股に分かれる。一方は石造りの祠へ、もう一方は雑草に覆われた急斜面へ。","why":"石造りの祠は人の気配が濃いので避け、自然の勾配に従う急斜面側を選んだ。"},{"clock":"1:10","act":"休む","text":"急斜面の途中、根がむき出しになった杉の根本に腰を下ろす。胸焼けのような急勾配に疲れた。","why":"呼吸を整え、次の傾斜の変化を足裏で感じるため、動かない状態を選んだ。"},{"clock":"1:18","act":"見回す","text":"杉林を抜けた先で、突然視界が開け、水平線が見える。風が髪を乱す。","why":"尾根の頂に達したことを確認し、海側の急勾配へ降る準備をした。"},{"clock":"1:25","act":"向きを決める","text":"尾根を降り、海岸線に向かう。足元は崩れた土と岩。傾斜は急だ。","why":"重力に従い、最も下へ、最も水平な場所へ向かう本能に従った。"},{"clock":"1:35","act":"行き止まり","text":"断崖の下、波が跳ねる岩場に着く。先へは進めない。壁のように垂直な崖が立ちはだかる。","why":"物理的に進む手段がないため、方向転換を余儀なくされた。"},{"clock":"1:42","act":"帰りを決める","text":"海岸沿いの遊歩道を振り返り、来た道を戻る。背後の町の灯りが暗闇に浮かび始めている。","why":"地形の壁に阻まれ、出発点への最短距離が明確になったため。"},{"clock":"1:55","act":"見回す","text":"坂道を登り、水路の橋を再度渡る。同じ場所だが、光の質が夜に移り変わっている。","why":"帰路の安全を確認し、足元の暗闇を照らすための光を探すため。"},{"clock":"2:00","act":"帰着","text":"埠頭のコンクリートに立ち、水平線を再確認する。風はまだ強い。","why":"出発点への回帰を確認し、この散歩を終える。"}],"returned":true,"last":"勾配の記憶だけが、足に残る。"},{"id":"01-07","title":"道南の午後","way":"予定なく歩く。気が向いた方へ行き、止まらずに行きすぎる。","start":"駅の改札口。雪の匂いが残る、静かな町。","minutes":180,"steps":[{"clock":"0:00","act":"向きを決める","text":"改札を出て左へ。線路沿いの道を歩く。","why":"駅前は人が多いので、少し外れて静かな方へ。"},{"clock":"0:12","act":"立ち止まる","text":"古い倉庫の壁に苔が生えている。窓は割れている。","why":"廃墟の匂いが好きだ。"},{"clock":"0:25","act":"寄る","text":"港の方向へ降りる坂道で、漁港の防波堤を渡る。","why":"海の匂いがしたい。"},{"clock":"0:40","act":"見回す","text":"防波堤の先に、小さな灯台がある。","why":"ここから町全体が見えるはずだ。"},{"clock":"1:00","act":"向きを決める","text":"灯台の下から、林道に入り込む。","why":"裏の丘から、別の景色が見えるかもしれない。"},{"clock":"1:30","act":"調べる","text":"林道の途中に、古い石碑がある。文字は読めない。","why":"何か意味がある気がする。"},{"clock":"2:00","act":"行き止まり","text":"林道の先は、崖になっている。","why":"ここまで来たら、戻るしかない。"},{"clock":"2:15","act":"休む","text":"崖の縁で座る。風が強い。","why":"息を落ち着ける。"},{"clock":"2:30","act":"向きを決める","text":"崖沿いの道を、反対側へ進む。","why":"同じ方向に戻るのはつまらない。"},{"clock":"3:00","act":"立ち止まる","text":"小さな神社の境内を横切ろうとする。","why":"近道になるかもしれない。"},{"clock":"3:20","act":"見回す","text":"神社の社務所の前に、干物干しがある。","why":"人の気配が気になる。"},{"clock":"3:45","act":"寄る","text":"干物干しを見ていると、隣の裏口から誰かが出てきた。","why":"挨拶を交わす。"},{"clock":"4:10","act":"帰りを決める","text":"港に戻る道を、少し遠回りしながら歩く。","why":"まだ時間があるから。"},{"clock":"5:30","act":"帰着","text":"駅の改札に戻る。","why":"散歩は終わりだ。"}],"returned":true,"last":"風が少し冷たい。"},{"id":"01-08","title":"郵便ポストの影","way":"視線の先の小さな違和感を辿り、同じ街角の異なる切り口を拾い集めて戻る","start":"緑の屋根の小さな集配所。周囲は木造の古い住宅と、波止場を望む急な坂道で満たされている","minutes":40,"steps":[{"clock":"0:00","act":"見回す","text":"ポストの横にあるコンクリートの角柱を見る。表面に白い塩気のような染みがある。","why":"この染みの広がり方を見ることで、海風がどこから吹きやすいかを知りたかったから"},{"clock":"0:03","act":"向きを決める","text":"角柱の影が落ちている方向、つまり西寄りの狭い路地へ足を向ける。","why":"影の中に入れば、強い日差しを避けて建物の細部を見られると思ったから"},{"clock":"0:08","act":"調べる","text":"路地の壁に貼られた古びった「町内会」の張り紙を確認する。内容は雨漏り対策の呼びかけだった。","why":"この町で何に関心があるか、紙の端に残る訂正の痕跡から推測してみたかったから"},{"clock":"0:12","act":"寄る","text":"路地の途中で、瓦の一枚が外れた軒先で、苔が青く生えている様子を見上げる。","why":"この苔の濃さから、雨の滴り方や日陰の程度を推量したかったから"},{"clock":"0:18","act":"行き止まり","text":"路地の奥は、倒壊を防ぐための金属製の仮設塀で閉ざされていた。","why":"その先の廃墟となった建物の様子を知りたかったが、安全のため諦めたから"},{"clock":"0:22","act":"休む","text":"仮設塀の足元にある、誰かが捨てた空き缶のラベルの文字をじっと見つめる。","why":"ラベルの剥がれ方から、この缶がここに何日間留まっていたか想像したかったから"},{"clock":"0:26","act":"向きを決める","text":"来た道を戻るのではなく、路地の脇に分かれている、もっと小さな石畳の階段へ降りる。","why":"段差を利用して、より低い視点から同じ街の景色を見返してみたかったから"},{"clock":"0:31","act":"見回す","text":"階段の手すり鉄棒に、小さな虫の死骸が幾つか付着している。","why":"この町の微細な生態系や、夜間の気温変化を、この小さな痕跡から読み取りたかったから"},{"clock":"0:35","act":"調べる","text":"階段の途中に設置された、錆びついた防犯カメラのレンズを覗き込む。","why":"レンズの曇り具合から、この地域での結露の頻度を知りたかったから"},{"clock":"0:38","act":"帰り","text":"階段を上り終え、最初の路地に戻り、角柱の横を通り過ぎる。","why":"出発点である集配所の郵便ポストの位置を確認して、正確に戻るため"},{"clock":"0:40","act":"帰着","text":"集配所の前に戻り、ポストの横の角柱を見上げる。先ほどと全く同じ角度で立っていた。","why":"自分の移動軌跡が、この街の静けさを壊していないことを確認したかったから"}],"returned":true,"last":"同じ場所から別の世界が立ち上がっていた。"},{"id":"01-09","title":"霧のなかの道標","way":"目的地なく足を踏み出し、迷ってから帰り道を探す","start":"廃墟化しつつある旧郵便局の前、霧が立ち込める道南の集落","minutes":180,"steps":[{"clock":"0:00","act":"出発","text":"濡れたコンクリートの床から足を進め、霧の向こうに消える坂道へ入った。","why":"この集落のどこかに、かつて海が見えていた場所があると聞いたから。"},{"clock":"0:15","act":"立ち止まる","text":"右手の農家の塀に、枯れた藤の蔓が絡みついているのが見えた。葉は落ち、つるだけが残っている。","why":"この蔓の方向に続く小径が、裏手の林道へ通じていそうだった。"},{"clock":"0:45","act":"迷う","text":"林道と田んぼの分岐点で、霧が濃くなり、方向感覚が曖昧になった。地面は柔らかく、足が沈む。","why":"どちらを選んでも同じ場所にたどり着くような気がしたから、手前の草が密生する方へ向かった。"},{"clock":"1:10","act":"立ち止まる","text":"廃された漁協の倉庫の裏に、錆びついたロープと、割れたプラスチックの浮きが見捨てられていた。","why":"これらが海に近い証拠であり、この先で視界が開けるかもしれないと考えた。"},{"clock":"1:30","act":"調べる","text":"倉庫の壁に貼られた古いポスターの一部が、雨で剥がれかけていた。文字は判読不能だったが、青と白の配色が印象的だった。","why":"この建物の歴史を感じ取り、自分の足取りが正しかったことを確認したかった。"},{"clock":"1:50","act":"見失う","text":"霧が急に厚くなり、先程通った道筋がどこだったか分からなくなった。周囲は均一な白に染まり、手触りのない世界になった。","why":"迷子になったことで、足元の感覚や風の音に意識が向き始めた。"},{"clock":"2:10","act":"立ち止まる","text":"足元を流れる細い水路の音が、霧の中で不思議なほどクリアに聞こえてきた。水は透明で、冷たさを感じた。","why":"水の流れは海へ向かうはずで、これを手がかりに方角をつけようとした。"},{"clock":"2:30","act":"立ち止まる","text":"水路を遡ると、石積みの護岸が現れた。その上に、青苔が厚く生えていた。","why":"この石積みの質が、町の中心部とは異なる素材であることを示していた。"},{"clock":"2:50","act":"立ち止まる","text":"霧が少しだけ晴れ、遠くで教会の塔のような尖った屋根が見えた。しかし、その距離感が掴めない。","why":"見慣れた形であるため、安心感と共に、そこへ向かう決断をした。"},{"clock":"3:10","act":"立ち止まる","text":"尖った屋根を辿ると、それは古い給水塔だった。錆びた梯子と、周囲の雑草が荒れていた。","why":"目標が外れたことで、再び足元の観察に戻った。"},{"clock":"3:30","act":"立ち止まる","text":"給水塔の基壇部から放射状に延びるアスファルトのひび割れを頼りに、反対方向へ歩いた。","why":"この町の道路は、かつての町名が刻まれていた場所を通ると聞いていた。"},{"clock":"3:50","act":"立ち止まる","text":"道端の石灯籠の一つに、磨り減った文字が残っていた。読み取れなかったが、その存在感が道しるべになっていた。","why":"この集落の時間軸を確認し、自分の位置が「過去」と「現在」の境目にいることを実感した。"},{"clock":"4:10","act":"立ち止まる","text":"霧が完全に晴れ、遠くで海が青く光っているのが見えた。風が冷たく、塩の匂いが強くなった。","why":"海が見えれば、帰り道は決まっていた。"},{"clock":"4:30","act":"着く","text":"旧郵便局の裏口にある、錆びついた鉄扉の前に戻ってきた。足跡は消えているが、その位置は間違いない。","why":"迷ったことで、この町の輪郭が頭の中で完成した。"}],"returned":true,"last":"霧は嘘をついていなかった"},{"id":"01-10","title":"影の端を辿る","way":"日の長い影の先端が触れている物体や境界線だけを拾い、その進行方向に沿って進む","start":"廃止された線路跡の終端にある、海側を向いた小さな待合室","minutes":120,"steps":[{"clock":"0:00","act":"見回す","text":"午後の斜光が待合室の柱の影を、海側の手すりへ伸ばしていた。","why":""},{"clock":"0:05","act":"向きを決める","text":"影の先端が指し示す、錆びた手すりの先にある傾いた石垣を辿ることにした。","why":"影の連続が、町の内陸側へ向かう斜めの道筋を示していたから。"},{"clock":"0:18","act":"寄る","text":"石垣の陰で、苔むした角材の積まれた山に影が重なるのを確認する。","why":"影の密度が濃い場所には、まだ誰かが手をつけた証拠があるかもしれない。"},{"clock":"0:35","act":"調べる","text":"積まれた角材の隙間から、風で軋む音だけが聞こえる。","why":"影の中で響く音は、光の届かない場所の温度を感じさせる。"},{"clock":"0:50","act":"行き止まり","text":"積まれた角材の先は、切り立った崖の縁となり、影が断絶される。","why":""},{"clock":"0:58","act":"向きを決める","text":"崖沿いの細い防除道を、影が長く伸びている左へ折れる。","why":"影の断絶を避けて、連続する暗さを追うことで道を繋ぎたかった。"},{"clock":"1:12","act":"見回す","text":"防除道の横に、倒れた看板の柱が一本、影を投げていた。","why":""},{"clock":"1:20","act":"寄る","text":"倒れた柱の影が、地面の割れ目に吸い込まれている。","why":"影が消失する点こそ、次の地形の変化を示す標識だと考えた。"},{"clock":"1:35","act":"休む","text":"割れ目の縁に腰を下ろし、影の濃さが変化していくのを眺める。","why":"動かないことで、影の動きを正確に読み取れた。"},{"clock":"1:50","act":"向きを決める","text":"影が割れ目から抜け出し、先にある無灯の街灯の柱へ届くのを確認し、歩き出す。","why":"影の着地点が、次の目印となる。"},{"clock":"2:05","act":"調べる","text":"無灯の街灯の柱には、古びた時刻表示の板があるが、針は止まっている。","why":"時間は影の長さでしか測れないことを確認した。"},{"clock":"2:15","act":"見回す","text":"街灯の影が、背後の斜面を覆い、斜面の草の葉先を照らしていた。","why":""},{"clock":"2:30","act":"向きを決める","text":"照らされた草の生え方が、風下を示し、それは出発点とは逆方向へ向いていた。","why":"風下を歩くことで、空気の匂いが変わる場所へ移動したい。"},{"clock":"2:45","act":"帰りを決める","text":"斜面を下ると、待合室の屋根が影の中に浮かんでいる。","why":"影の起点である待合室が見え、帰路が確定した。"},{"clock":"3:00","act":"帰着","text":"待合室の柱の影が、再び手すりに触れている。","why":""}],"returned":true,"last":"影は戻ってきたが、光は少しだけ角度を変えていた。"},{"id":"01-11","title":"斜陽の幾何学","way":"歩道がまっすぐでない、または角が直角でない方向へ進めるなら進む。","start":"旧港駅の待合室の裏口から、潮と湿ったコンクリートの匂いが漂う町の入り口","minutes":180,"steps":[{"clock":"0:03","act":"向きを決める","text":"駅の改札をくぐらず、裏の通路に出る。目の前の歩道は海に向かって緩やかに湾曲していた。","why":"まっすぐな道ではなく、曲線を描く歩道なら進むことと決めたからだ。"},{"clock":"0:12","act":"調べる","text":"手すりの朽ちた桟橋の端で立ち止まり、波の打ち寄せ方を見る。角度は斜め四十五度。","why":"水の流れの傾きが、自分の決まりに合致しているか確かめたかった。"},{"clock":"0:25","act":"寄り","text":"路地を入ると、斜めの勾配のある坂道に出る。石畳は湿って光っている。","why":"傾斜があることで、まっすぐさから逸脱している。"},{"clock":"0:40","act":"見回す","text":"坂上の交差点。信号は点滅中。車の通りは少なく、風の音だけが聞こえる。","why":"直進できない不整な地形かを探している。"},{"clock":"0:55","act":"向きを決める","text":"左手にある、壁が歪んだ倉庫跡の横を通る道を選ぶ。","why":"建物の直線美がない、歪みの残る場所へ行きたかった。"},{"clock":"1:10","act":"調べる","text":"廃屋の隙間から見る空。雲の流れが、規則正しい模様とは異なっていた。","why":"不規則な動きだけが、この散歩の許可を出す。"},{"clock":"1:30","act":"休む","text":"傾いたベンチに腰を下ろす。背もたれの角度は適正ではない。","why":"不快感の中にこそ、真実の座り心地があると思った。"},{"clock":"1:45","act":"向きを決める","text":"ベンチを離れ、傾斜の激しい階段を下る。","why":"垂直に近い変化が、次の選択を促す。"},{"clock":"2:05","act":"見回す","text":"階段下の空き地。倒れた木々が、ランダムに散らばっている。","why":"整列していない物事への視線を確認するため。"},{"clock":"2:20","act":"寄り","text":"倒れた一本の松の根元を見る。土は割れ、不規則な形をしている。","why":"自然の歪みが、人間の計画を否定している証拠だから。"},{"clock":"2:35","act":"向きを決める","text":"空き地の端から、波打ち際へ向かう砂利道へ出る。","why":"海への傾斜が、もっとも不規則だ。"},{"clock":"2:50","act":"調べる","text":"貝殻の殻片を探し、その非対称さを確かめる。","why":"完璧な円形は存在しないという確信のため。"},{"clock":"3:10","act":"行き止まり","text":"防波堤の角。先には海しかない。道はここで終わる。","why":"不規則な地形の極限、つまり境界線に達した。"},{"clock":"3:30","act":"帰りを決める","text":"来た道を振り返り、歪んだ倉庫跡の方向へ向きを変える。","why":"出発点への帰還も、不規則な軌道でなければならない。"}],"returned":true,"last":"直線は嘘だと、足が覚えた。"},{"id":"01-12","title":"塩と鉄の匂い","way":"直進しないこと。道が分岐するたびに、視線の先端にある最も不自然な色や音の方角へ足を運ぶこと。","start":"港のフェリーターミナル、朝霧がまだ晴れない灰色の海と、錆びたコンクリートの匂い","minutes":240,"steps":[{"clock":"0:00","act":"見回す","text":"ターミナルのガラス張りの待合室から外に出た。足元は濡れたアスファルトで、遠くの埠頭でクレーンが静かに止まっている。","why":"どこにも急ぎたい用事はない。"},{"clock":"0:15","act":"向きを決める","text":"直進の国道ではなく、左手の細い石畳の路地に入ることにした。向こう側で、古いトランジスタラジオのような低い周波数が聞こえた気がした。","why":"人通りの少ない方角の方が、町の呼吸が見える気がする。"},{"clock":"0:32","act":"立ち止まる","text":"路地の奥、廃屋となりかけた家屋の前にある錆びついた鉄製ポストに留まった。赤いポストは緑の苔に覆われて、まるで地中で育つキノコのようだった。","why":"この色は、周囲の灰白の中で異質に浮いていた。"},{"clock":"0:50","act":"寄る","text":"ポストの横に続く、もっと細い抜け道を発見。ここは地図には載っていない、あるいは古い道だった。足元は不整な石畳で、少しだけ下っていった。","why":"「この先に何かあるかな」という予感が、背中を押した。"},{"clock":"1:05","act":"調べる","text":"道端に倒れた古い水道メーターの蓋が一つあった。蓋を開けると、中は乾ききっており、金属の匂いが強かった。","why":"この町の水がどこから来て、どこへ流れていくかを知りたかった。"},{"clock":"1:20","act":"見回す","text":"抜け道を進むと、急に開けた場所に出た。そこは小さな神社の境内だった。鳥居の朱色が、霧の中でぼやけて見えた。","why":"不意の空間の変化に、足を止めた。"},{"clock":"1:35","act":"休む","text":"石段の上のベンチに腰を下ろした。足元で、枯れた笹が風で擦れ合う音だけが聞こえる。遠くで波が打ち寄せる音が、少し大きくなった。","why":"歩く足を少し休ませ、耳を澄ましたい。"},{"clock":"1:50","act":"向きを決める","text":"神社の裏手へ回る。石畳ではなく、苔むした土の斜面を登っていく小道があった。","why":"高所から、この町の構造が見えるかもしれない。"},{"clock":"2:10","act":"見回す","text":"斜面を登り切ると、小さな展望台があった。ここから、先ほど歩いた石畳の路地も、港の埠頭も一望できた。町は、海に向かって広がっている。","why":"自分が歩いてきた道が、どう繋がっているかを確認したかった。"},{"clock":"2:30","act":"向きを決める","text":"帰るには遠い。だから、反対側、山の奥へ続く木道へ向かう。木漏れ日が多くなり、空気の匂いが変わり始める。","why":"まだ見ぬ景色への期待。"},{"clock":"2:55","act":"立ち止まる","text":"木道の途中、一本の巨木が倒れていた。幹の断面からは、まだ新しい汁液が滴っていた。赤褐色の液体が、土に染み込んでいく。","why":"時間というものが、この木の中では違う速度で動いているように感じた。"},{"clock":"3:20","act":"行き止まり","text":"木道は、崖っぷちで途切れていた。先は、海だった。風が強く、髪の毛が乱れる。ここは、町の縁だった。","why":"歩いてきた道の終端に、海があることは想像していた。"},{"clock":"3:45","act":"帰りを決める","text":"足元を滑らせそうになり、崖沿いの道を慎重に歩く。帰り道は、来た道と全く別の、海岸沿いの防波堤を走ることにした。","why":"同じ道を行き来しないため。町の輪郭をなぞりたい。"},{"clock":"4:00","act":"帰着","text":"港のターミナルに戻った。先ほどと同じ待合室のガラス窓。外は、先ほどよりも霧が晴れ、海が少しだけ青くなっていた。","why":"出発点に戻り、変化を確認する。"}],"returned":true,"last":"町は、同じなのに、全く違う場所になっていた。"}]};
+const KEY = 'mk-stories-' + (DATA ? DATA.round : 'x');
+const state = JSON.parse(localStorage.getItem(KEY) || '{}');
+const save = () => { localStorage.setItem(KEY, JSON.stringify(state)); count(); };
+const el = (tag, attrs = {}, ...kids) => { const n = document.createElement(tag); for (const [k, v] of Object.entries(attrs)) k === 'text' ? n.textContent = v : n.setAttribute(k, v); n.append(...kids); return n; };
+const dur = m => Math.floor(m / 60) + '時間' + (m % 60 ? (m % 60) + '分' : '');
+const RATES = ['すき', 'ふつう', 'ちがう'];
+const list = document.getElementById('list');
+
+function count() {
+  const n = DATA.stories.filter(s => state[s.id] && state[s.id].rate).length;
+  document.getElementById('count').textContent = n + ' / ' + DATA.stories.length + ' 判定ずみ';
+  document.getElementById('status').textContent = n === DATA.stories.length ? '全部つけました。コピーして貼ってください。' : 'あと ' + (DATA.stories.length - n) + ' 本';
+}
+
+if (!DATA) { list.append(el('p', { class: 'sub', text: '物語がまだありません。' })); }
+else {
+  document.getElementById('round').textContent = '第 ' + DATA.round + ' 回 · ' + DATA.stories.length + ' 本';
+  DATA.stories.forEach((s, i) => {
+    const st = state[s.id] = state[s.id] || { rate: '', likes: [], memo: '' };
+    const steps = el('ol', { class: 'steps bleed' });
+    s.steps.forEach((p, j) => {
+      const li = el('li', { tabindex: '0', role: 'button', 'aria-pressed': String(st.likes.includes(j)) },
+        el('span', { class: 'sub small num', text: p.clock || '' }),
+        el('span', { class: 'txt' },
+          el('span', {}, el('span', { class: 'badge', text: p.act || '' }), el('span', { class: 'badge y mark', text: 'ここ好き' })),
+          el('p', { text: p.text || '' }),
+          el('p', { class: 'why', text: p.why || '' })));
+      const flip = () => { const k = st.likes.indexOf(j); k < 0 ? st.likes.push(j) : st.likes.splice(k, 1); li.setAttribute('aria-pressed', String(k < 0)); save(); };
+      li.addEventListener('click', flip);
+      li.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flip(); } });
+      steps.append(li);
+    });
+    const seg = el('div', { class: 'seg', role: 'group', 'aria-label': '判定' });
+    RATES.forEach(r => {
+      const b = el('button', { 'aria-pressed': String(st.rate === r), text: r });
+      b.addEventListener('click', () => { st.rate = st.rate === r ? '' : r; [...seg.children].forEach(c => c.setAttribute('aria-pressed', String(c.textContent === st.rate))); save(); });
+      seg.append(b);
+    });
+    const memo = el('textarea', { placeholder: '一言（なくてもよい）', 'aria-label': '一言' });
+    memo.value = st.memo;
+    memo.addEventListener('input', () => { st.memo = memo.value; save(); });
+    list.append(el('section', { class: 'card story', id: s.id },
+      el('div', { class: 'cardhead' }, el('h2', { text: s.title }), el('span', { class: 'sub small num', text: (i + 1) + ' / ' + DATA.stories.length })),
+      el('div', { class: 'row' }, el('span', { class: 'badge num', text: dur(s.minutes) }), el('span', { class: 'badge ' + (s.returned ? 'g' : 'r'), text: s.returned ? '帰りついた' : '帰りつけなかった' })),
+      el('p', { class: 'sub', text: s.start }),
+      steps,
+      el('p', { text: s.last || '' }),
+      el('div', { class: 'judge' }, el('span', { class: 'label', text: 'この散歩は' }), seg),
+      memo));
+  });
+  count();
+}
+
+document.getElementById('copy').addEventListener('click', async () => {
+  const lines = ['みちくさ 物語の判定 第' + DATA.round + '回'];
+  for (const s of DATA.stories) {
+    const st = state[s.id];
+    lines.push('', s.id + '「' + s.title + '」: ' + (st.rate || '未判定'));
+    for (const j of [...st.likes].sort((a, b) => a - b)) lines.push('  ここ好き ' + (s.steps[j].clock || '') + ' ' + s.steps[j].text);
+    if (st.memo.trim()) lines.push('  一言: ' + st.memo.trim());
+  }
+  const text = lines.join('\n');
+  const out = document.getElementById('out');
+  out.value = text; out.style.display = 'block';
+  let ok = false;
+  try { await navigator.clipboard.writeText(text); ok = true; } catch (e) { out.focus(); out.select(); }
+  document.getElementById('status').textContent = ok ? 'コピーしました。チャットに貼ってください。' : 'コピーできませんでした。下の枠の文字を選んでコピーしてください。';
+  if (!ok) out.scrollIntoView();
+});
+</script>
+</body>
+</html>
