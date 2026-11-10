@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex">
 <title>みちくさ 物語の判定</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Montserrat:wght@500;600;700&family=Playwrite+US+Trad&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Montserrat:wght@500;600;700&display=swap">
 <style>
 /* みちくさ：見た目の決まり（参考 Meta の Astryx / D-026）。
    変数の名前と値は Astryx のものに合わせてある。主題（テーマ）は変数の上書きだけで替わる。
@@ -14,7 +14,6 @@
 :root{
   color-scheme:light dark;
   --jp:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic","Noto Sans JP";
-  --jp-serif:"Hiragino Mincho ProN","Yu Mincho","Noto Serif JP";
   /* neutral */
   --font-family-body:Figtree,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,var(--jp),sans-serif;
   --font-family-heading:var(--font-family-body);
@@ -82,7 +81,7 @@
 }
 [data-theme=matcha]{
   --font-family-body:"DM Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,var(--jp),sans-serif;
-  --font-family-heading:"Playwrite US Trad",Georgia,var(--jp-serif),serif;
+  --font-family-heading:var(--font-family-body);
   --font-family-code:"JetBrains Mono","SF Mono",Monaco,Consolas,var(--jp),monospace;
   --font-size-sm:.8125rem; --font-size-base:1rem; --font-size-lg:1.25rem; --font-size-xl:1.5625rem; --font-size-2xl:1.9375rem; --font-size-3xl:2.4375rem;
   --leading-body:1.5; --leading-supporting:1.5385;
@@ -248,6 +247,16 @@ td.wrap{white-space:normal}
 .steps li:hover{background:var(--color-background-muted)}
 .steps li[aria-pressed=true]{background:var(--color-background-muted)}
 .steps li:focus-visible{outline:2px solid var(--color-accent);outline-offset:-2px}
+.steps li.flow{display:flex;justify-content:center;padding:0;border-top:1px solid var(--color-border);cursor:default}
+.steps li.flow:hover{background:none}
+.flowbtn{all:unset;box-sizing:border-box;cursor:pointer;width:100%;text-align:center;padding:var(--spacing-1) var(--spacing-4);font-size:var(--font-size-sm);color:var(--color-text-secondary);transition:background var(--duration-fast) var(--ease-standard)}
+.flowbtn:hover{background:var(--color-background-muted)}
+.flowbtn:focus-visible{outline:2px solid var(--color-accent);outline-offset:-2px}
+.flowbtn[aria-pressed=true]{background:var(--color-background-muted);color:var(--color-text);font-weight:500}
+.story>*{min-width:0}
+.story .steps{margin-inline:0}
+.story .steps li:not(.flow){padding-inline:0}
+.judge .seg{max-width:100%;overflow-x:auto}
 .steps p{margin:0}
 .steps .why{color:var(--color-text-secondary);font-size:var(--font-size-sm)}
 .steps .txt{display:grid;gap:var(--spacing-1)}
@@ -284,6 +293,7 @@ textarea:focus-visible{outline:2px solid var(--color-accent);outline-offset:3px}
     <ul class="items bleed">
       <li><span class="dot on"></span><span>物語ごとに「すき・ふつう・ちがう」を選ぶ</span><span class="end"></span></li>
       <li><span class="dot on"></span><span>気に入った場面は、押すと印がつく</span><span class="end"></span></li>
+      <li><span class="dot on"></span><span>場面と場面のあいだの「↓」を押すと、その流れに印がつく。続けて押せば長い展開になる</span><span class="end"></span></li>
       <li><span class="dot on"></span><span>一言あれば書く。知らなかったけど面白い、もここへ</span><span class="end"></span></li>
       <li><span class="dot on"></span><span>最後に「結果をコピー」して、チャットに貼る</span><span class="end"></span></li>
     </ul>
@@ -320,6 +330,7 @@ else {
   document.getElementById('round').textContent = '第 ' + DATA.round + ' 回 · ' + DATA.stories.length + ' 本';
   DATA.stories.forEach((s, i) => {
     const st = state[s.id] = state[s.id] || { rate: '', likes: [], memo: '' };
+    st.flows = st.flows || []; st.whole = st.whole || '';
     const steps = el('ol', { class: 'steps bleed' });
     s.steps.forEach((p, j) => {
       const li = el('li', { tabindex: '0', role: 'button', 'aria-pressed': String(st.likes.includes(j)) },
@@ -332,12 +343,26 @@ else {
       li.addEventListener('click', flip);
       li.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flip(); } });
       steps.append(li);
+      if (j < s.steps.length - 1) {
+        const on = () => st.flows.includes(j);
+        const fb = el('button', { class: 'flowbtn', 'aria-pressed': String(on()), 'aria-label': 'ここからの流れが好き' });
+        const paint = () => { fb.setAttribute('aria-pressed', String(on())); fb.textContent = on() ? '↓ この流れが好き' : '↓'; };
+        fb.addEventListener('click', () => { const k = st.flows.indexOf(j); k < 0 ? st.flows.push(j) : st.flows.splice(k, 1); paint(); save(); });
+        paint();
+        steps.append(el('li', { class: 'flow' }, fb));
+      }
     });
     const seg = el('div', { class: 'seg', role: 'group', 'aria-label': '判定' });
     RATES.forEach(r => {
       const b = el('button', { 'aria-pressed': String(st.rate === r), text: r });
       b.addEventListener('click', () => { st.rate = st.rate === r ? '' : r; [...seg.children].forEach(c => c.setAttribute('aria-pressed', String(c.textContent === st.rate))); save(); });
       seg.append(b);
+    });
+    const seg2 = el('div', { class: 'seg', role: 'group', 'aria-label': 'どこが効いた' });
+    ['展開', '一場面', '両方', 'どちらでもない'].forEach(r => {
+      const b = el('button', { 'aria-pressed': String(st.whole === r), text: r });
+      b.addEventListener('click', () => { st.whole = st.whole === r ? '' : r; [...seg2.children].forEach(c => c.setAttribute('aria-pressed', String(c.textContent === st.whole))); save(); });
+      seg2.append(b);
     });
     const memo = el('textarea', { placeholder: '一言（なくてもよい）', 'aria-label': '一言' });
     memo.value = st.memo;
@@ -349,6 +374,7 @@ else {
       steps,
       el('p', { text: s.last || '' }),
       el('div', { class: 'judge' }, el('span', { class: 'label', text: 'この散歩は' }), seg),
+      el('div', { class: 'judge' }, el('span', { class: 'label', text: 'どこが効いた' }), seg2),
       memo));
   });
   count();
@@ -358,7 +384,10 @@ document.getElementById('copy').addEventListener('click', async () => {
   const lines = ['みちくさ 物語の判定 第' + DATA.round + '回'];
   for (const s of DATA.stories) {
     const st = state[s.id];
-    lines.push('', s.id + '「' + s.title + '」: ' + (st.rate || '未判定'));
+    lines.push('', s.id + '「' + s.title + '」: ' + (st.rate || '未判定') + (st.whole ? '（効いたのは' + st.whole + '）' : ''));
+    const f = [...st.flows].sort((a, b) => a - b);
+    for (let i = 0; i < f.length; i++) { let e = i; while (e + 1 < f.length && f[e + 1] === f[e] + 1) e++;
+      lines.push('  流れが好き ' + s.steps[f[i]].clock + '→' + s.steps[f[e] + 1].clock + ' ' + s.steps.slice(f[i], f[e] + 2).map(x => x.act).join('→')); i = e; }
     for (const j of [...st.likes].sort((a, b) => a - b)) lines.push('  ここ好き ' + (s.steps[j].clock || '') + ' ' + s.steps[j].text);
     if (st.memo.trim()) lines.push('  一言: ' + st.memo.trim());
   }
